@@ -33,4 +33,16 @@ public class Account {
         this.balance = balance;
     }
 
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Account) {
+            Account otherAccount = (Account) other;
+            return otherAccount.getBalance().equals(balance)
+                    && otherAccount.getUserId()==userId;
+        } else {
+            return false;
+        }
+    }
+
+
 }

@@ -1,11 +1,7 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
-import org.springframework.web.client.ResourceAccessException;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -18,13 +14,24 @@ public class AccountService {
     private RestTemplate restTemplate = new RestTemplate();
     //*jaron
     public String authenticationToken = null;
+    private BigDecimal balance;
 
     //*jaron
     public void setAuthenticationToken(String authenticationToken) {
         this.authenticationToken = authenticationToken;
     }
 
+    public String getBalance(String balance) {
+        return balance;
+    }
+
+    public void setBalance(Long balance) {
+        this.balance = BigDecimal.valueOf(balance);
+    }
+
+
     //*jaron/kanae
+    /*
     public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         BigDecimal theBalance = BigDecimal.valueOf(0);
@@ -40,6 +47,8 @@ public class AccountService {
 
         return theBalance;
     }
+
+     */
 
     //*jaron/kanae
     private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {

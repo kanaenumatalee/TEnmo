@@ -19,6 +19,9 @@ public class App {
     //*kanae/jaron
     private final AccountService accountService = new AccountService();
     private AuthenticatedUser currentUser;
+    private  final Account account = new Account();
+
+
 
     public static void main(String[] args) {
         App app = new App();
@@ -95,8 +98,8 @@ public class App {
 
 		// TODO Auto-generated method stub
 
-       // System.out.println(currentUser.getUser().getId())
-        System.out.println(accountService.getBalance(currentUser));
+        System.out.println(currentUser.getUser().getId());
+        System.out.println(account.getBalance());
 
         //Money model class
         //get balance

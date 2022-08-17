@@ -63,6 +63,7 @@ public class App {
         currentUser = authenticationService.login(credentials);
         if (currentUser == null) {
             consoleService.printErrorMessage();
+            //generate token?
         }
     }
 
@@ -93,27 +94,45 @@ public class App {
 	private void viewCurrentBalance() {
 
 		// TODO Auto-generated method stub
+
        // System.out.println(currentUser.getUser().getId())
         System.out.println(accountService.getBalance(currentUser));
+
+        //Money model class
+        //get balance
+        //token
+
 	}
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
+        //log?
+        System.out.println("History");
 		
 	}
 
 	private void viewPendingRequests() {
 		// TODO Auto-generated method stub
-		
+        System.out.println("Requests");
+        //log
+
 	}
 
 	private void sendBucks() {
 		// TODO Auto-generated method stub
+        //can't send ore than current amount
+        //can't send 0 or negative amount
+        //transfer to different id
+        //see all users I could transfer to
+        System.out.println("sent money");
+        //consoleService.promptForBigDecimal()
 		
 	}
 
 	private void requestBucks() {
 		// TODO Auto-generated method stub
+        System.out.println("Begged for money");
+        //consoleService.promptForInt()
 		
 	}
 

@@ -24,17 +24,22 @@ public class AccountService {
     //*jaron/kanae
     public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
-        BigDecimal theBalance = null;
+        BigDecimal balance = null;
         try {
-            theBalance = restTemplate.exchange(baseUrl + "account", HttpMethod.GET, entity, Account.class).getBody().getBalance();
+            balance = restTemplate.exchange(baseUrl + "account/balance",
+                                                HttpMethod.GET,
+                                                entity,
+                                                BigDecimal.class).getBody();
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             BasicLogger.log(e.getMessage());
         }
-        return theBalance;
+        return balance;
     }
 
+    //getAccountByUserId
+    //getAccountById
 
 
     //*jaron/kanae

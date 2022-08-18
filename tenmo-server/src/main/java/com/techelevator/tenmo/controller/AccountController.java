@@ -25,5 +25,19 @@ public class AccountController {
     }
 
 
+    //getUsers
+    //addTransfer
+    //getTransferTypeFromDescription
+    //getTransferStatusByDescription
+    //getAccountByUserId
+    //getAccountFromAccountId
+    //getTransfersByUserId
+    //getTransferById
+    //getUserByUserId
+    //getAllTransfers
+    //getTransferDescFromId
+    //getTransferStatusFromId
+    //getPendingTransfersByUserId
+    //updateTransferStatus
 
 }

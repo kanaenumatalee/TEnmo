@@ -8,6 +8,11 @@ import java.math.BigDecimal;
 
 public class JdbcAccountDao implements AccountDao{
     private JdbcTemplate jdbcTemplate;
+
+    public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     //*kanae/jaron
     @Override
     public BigDecimal getBalance(String user) {
@@ -17,7 +22,8 @@ public class JdbcAccountDao implements AccountDao{
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user);
         Account account = new Account();
         if (result.next()) {
-            account.setBalance(result.getBigDecimal("balance"));
+            account = mapRowToAccount(result);
+            account.setBalance((BigDecimal) result);
         }
         return account.getBalance();
     }
@@ -34,11 +40,31 @@ public class JdbcAccountDao implements AccountDao{
         }
     }
 
-    private Account mapRowToUser(SqlRowSet rs) {
-        Account account = new Account();
-        account.setAccount_id(rs.getInt("account_id"));
-        account.setUser_id(rs.getInt("user_id"));
-        account.setBalance(rs.getBigDecimal("balance"));
+    @Override
+    public Account getAccountByUserId(int userId) {
+        return null;
+    }
+
+    @Override
+    public Account getAccountByAccountId(int accountId) {
+        return null;
+    }
+
+    @Override
+    public void updateAccount(Account account) {
+
+    }
+
+    private Account mapRowToAccount(SqlRowSet rs) {
+        int accountId = rs.getInt("account_id");
+        int userAccountId = rs.getInt("user_id");
+        BigDecimal balance = rs.getBigDecimal("balance");
+
+        //Account account = new Account();
+        //account.setAccount_id(rs.getInt("account_id"));
+        //account.setUser_id(rs.getInt("user_id"));
+        // account.setBalance(rs.getBigDecimal("balance"));
+        Account account = new Account(accountId, userAccountId, balance);
         return account;
         }
 

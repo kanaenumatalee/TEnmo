@@ -9,4 +9,8 @@ public class TransferStatusService {
     public TransferStatusService(String baseUrl) {
         this.baseUrl = baseUrl;
     }
+
+    //getTransferStatus
+    //getTransferStatusById
+    //makeEntity
 }

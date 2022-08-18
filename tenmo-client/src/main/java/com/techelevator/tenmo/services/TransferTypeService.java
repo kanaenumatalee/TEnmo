@@ -9,4 +9,8 @@ public class TransferTypeService {
     public TransferTypeService(String baseUrl) {
         this.baseUrl = baseUrl;
     }
+
+    //getTransferType
+    //getTransferTypeFromId
+    //makeEntity
 }

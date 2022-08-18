@@ -10,4 +10,12 @@ public class TransferService {
     public TransferService(String baseUrl) {
         this.baseUrl = baseUrl;
     }
+
+    //makeTransfer
+    //getTransfersFromUserId
+    //getTransferFromTransferId
+    //getAllTransfers
+    //makeEntity
+    //getPendingTransfersByUserId
+    //updateTransfer
 }

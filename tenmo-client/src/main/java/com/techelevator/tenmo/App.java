@@ -13,13 +13,10 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    //*awal/jaron
-    //private Account currentAccount;
-
     //*kanae/jaron
-    private final AccountService accountService = new AccountService();
+    private final AccountService accountService = new AccountService(API_BASE_URL);
     private AuthenticatedUser currentUser;
-    private  final Account account = new Account();
+    private final Account account = new Account();
 
 
 
@@ -97,13 +94,7 @@ public class App {
 	private void viewCurrentBalance() {
 
 		// TODO Auto-generated method stub
-
-        System.out.println(currentUser.getUser().getId());
-        System.out.println(account.getBalance());
-
-        //Money model class
-        //get balance
-        //token
+        System.out.println(accountService.getBalance(currentUser));
 
 	}
 

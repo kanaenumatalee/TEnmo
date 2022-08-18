@@ -1,0 +1,12 @@
+2022-08-17T14:12:21.097823 401 : [no body]
+2022-08-17T14:12:36.242718 401 : [no body]
+2022-08-17T14:13:03.195505 400 : [{"timestamp":"2022-08-17T21:13:03.169+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-17T14:13:54.90852 400 : [{"timestamp":"2022-08-17T21:13:54.807+00:00","status":400,"error":"Bad Request","message":"User registration failed.","path":"/register"}]
+2022-08-17T16:51:34.579695 404 : 
+2022-08-17T16:52:41.842578 404 : 
+2022-08-17T16:55:16.987666 404 : 
+2022-08-17T17:03:55.496322 404 : 
+2022-08-17T17:06:57.091982 404 : 
+2022-08-17T17:25:06.479006 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2022-08-17T17:26:58.662851 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2022-08-17T17:27:40.533553 404 : 

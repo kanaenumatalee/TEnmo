@@ -1,31 +1,30 @@
 package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 
 import java.math.BigDecimal;
 
-public class jdbcAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao{
     private JdbcTemplate jdbcTemplate;
     //*kanae/jaron
     @Override
     public BigDecimal getBalance(String user) {
-        String sql = "select balance from account join tenmo_user on account.user_id = tenmo_user.user_id\n" +
-                "where username ILike ?;";
-        BigDecimal result = jdbcTemplate.queryForObject(sql,BigDecimal.class, user);
-
-        if (result != null) {
-            return result;
-        } else {
-            return null;
+        String sql = "SELECT balance FROM account AS a " +
+                     "JOIN tenmo_user AS t ON a.user_id = t.user_id " +
+                     "WHERE username = ?;";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user);
+        Account account = new Account();
+        if (result.next()) {
+            account.setBalance(result.getBigDecimal("balance"));
         }
+        return account.getBalance();
     }
 
     //*awal/jaron
     public int findIdByAccountId(int accountId) {
-        String sql = "SELECT *  FROM account WHERE account_id = ?;";
+        String sql = "SELECT * FROM account WHERE account_id = ?;";
         Integer id = jdbcTemplate.queryForObject(sql, Integer.class, accountId);
         if (id != null) {
             return id;
@@ -33,16 +32,6 @@ public class jdbcAccountDao implements AccountDao{
             return -1;
         }
     }
-    //*awal/jaron
-   // public int findDoubleGetBalance(double getBalance) {
-
-//        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, getBalance);
-//        if (id != null) {
-//            return id;
-//        } else {
-//            return -1;
-//        }
-//    }
 
     private Account mapRowToUser(SqlRowSet rs) {
         Account account = new Account();

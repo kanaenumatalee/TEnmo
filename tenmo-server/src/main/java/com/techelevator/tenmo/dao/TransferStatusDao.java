@@ -2,7 +2,7 @@ package com.techelevator.tenmo.dao;
 
 import com.techelevator.tenmo.model.TransferStatus;
 
-public interface TransferStatusDAO {
+public interface TransferStatusDao {
 
     TransferStatus getTransferStatusByDesc(String description);
 

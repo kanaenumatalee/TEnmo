@@ -1,6 +1,6 @@
 package com.techelevator.tenmo.controller;
 
-import com.techelevator.tenmo.dao.AccountDao;
+import com.techelevator.tenmo.dao.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,9 +12,13 @@ import java.security.Principal;
 //*kanae/jaron
 @RestController
 @PreAuthorize("isAuthenticated()")
-//@RequestMapping("/balance")
 public class AccountController {
+    UserDao userDao;
     AccountDao accountDao;
+    TransferDao transferDao;
+    TransferStatusDao transferStatusDao;
+    TransferTypeDao transferTypeDao;
+
     @RequestMapping(path = "/balance",method = RequestMethod.GET)
     public BigDecimal getBalance(Principal principal){
     return accountDao.getBalance(principal.getName());

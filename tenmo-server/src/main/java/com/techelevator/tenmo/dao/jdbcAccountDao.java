@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.dao;
 import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -12,7 +13,10 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+@Component
+
 public class jdbcAccountDao implements AccountDao{
+    @Autowired
     private JdbcTemplate jdbcTemplate;
     //*kanae/jaron
     @Override

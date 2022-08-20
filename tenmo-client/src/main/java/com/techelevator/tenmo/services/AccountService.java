@@ -1,6 +1,5 @@
 package com.techelevator.tenmo.services;
 
-import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.*;
@@ -13,7 +12,7 @@ import java.math.BigDecimal;
 
 public class AccountService {
     //*jaron
-    public static final String API_BASE_URL = "http://localhost:8080/account/";
+    public static final String API_BASE_URL = "http://localhost:8080/account";
     //*jaron
     private RestTemplate restTemplate = new RestTemplate();
     //*jaron
@@ -25,12 +24,12 @@ public class AccountService {
     }
 
     //*jaron/kanae
-    public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
-        HttpEntity entity = makeEntity(authenticatedUser);
-        BigDecimal theBalance = BigDecimal.valueOf(0);
+    public BigDecimal getBalance() {
+//brackpoint below on line 29
+        BigDecimal theBalance = new BigDecimal(1000);
         try {
 
-            theBalance = restTemplate.exchange(API_BASE_URL, HttpMethod.GET, entity, Account.class).getBody().getBalance();
+            theBalance = restTemplate.exchange(API_BASE_URL+"/balance", HttpMethod.GET, makeEntity(), BigDecimal.class).getBody();
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
@@ -42,10 +41,9 @@ public class AccountService {
     }
 
     //*jaron/kanae
-    private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
+    private HttpEntity makeEntity() {
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.setBearerAuth(authenticatedUser.getToken());
+        headers.setBearerAuth(this.authenticationToken);
         HttpEntity entity = new HttpEntity(headers);
         return entity;
     }

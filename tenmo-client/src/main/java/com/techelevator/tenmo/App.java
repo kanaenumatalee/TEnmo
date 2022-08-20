@@ -90,18 +90,13 @@ public class App {
             consoleService.pause();
         }
     }
-    //*jaron/awal
+    //*jaron/awal/kanae complete
 	private void viewCurrentBalance() {
-
 		// TODO Auto-generated method stub
-
-       // System.out.println(currentUser.getUser().getId())
-        System.out.println(accountService.getBalance(currentUser));
-
+    System.out.println(" This Your Current Balance $"+accountService.getBalance());
         //Money model class
         //get balance
         //token
-
 	}
 
 	private void viewTransferHistory() {

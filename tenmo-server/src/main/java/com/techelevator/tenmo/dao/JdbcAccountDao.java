@@ -1,45 +1,42 @@
 package com.techelevator.tenmo.dao;
-
 import com.techelevator.tenmo.model.Account;
+import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+@Component
 
-public class JdbcAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
-    public JdbcAccountDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     //*kanae/jaron
     @Override
     public BigDecimal getBalance(String user) {
-        String sql = "SELECT balance FROM account AS a " +
-                     "JOIN tenmo_user AS t ON a.user_id = t.user_id " +
-                     "WHERE username = ?;";
+        String sql = "select balance from account join tenmo_user on account.user_id = tenmo_user.user_id\n" +
+                "where username = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user);
         Account account = new Account();
+        BigDecimal balance = null;
         if (result.next()) {
-            account = mapRowToAccount(result);
-            account.setBalance((BigDecimal) result);
+            balance = result.getBigDecimal("balance");
+            account.setBalance(balance);
         }
-        return account.getBalance();
+        return balance;
     }
 
-    //*awal/jaron
     @Override
     public int findIdByAccountId(int accountId) {
-        String sql = "SELECT * FROM account WHERE account_id = ?;";
-        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, accountId);
-        if (id != null) {
-            return id;
-        } else {
-            return -1;
-        }
+        return 0;
     }
 
     @Override
@@ -56,19 +53,4 @@ public class JdbcAccountDao implements AccountDao{
     public void updateAccount(Account account) {
 
     }
-
-    private Account mapRowToAccount(SqlRowSet rs) {
-        int accountId = rs.getInt("account_id");
-        int userAccountId = rs.getInt("user_id");
-        BigDecimal balance = rs.getBigDecimal("balance");
-
-        //Account account = new Account();
-        //account.setAccount_id(rs.getInt("account_id"));
-        //account.setUser_id(rs.getInt("user_id"));
-        // account.setBalance(rs.getBigDecimal("balance"));
-        Account account = new Account(accountId, userAccountId, balance);
-        return account;
-        }
-
-
 }

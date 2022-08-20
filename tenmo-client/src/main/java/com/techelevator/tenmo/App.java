@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 public class App {
 
@@ -17,7 +18,8 @@ public class App {
     //private Account currentAccount;
 
     //*kanae/jaron
-    private final AccountService accountService = new AccountService();
+    private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final TransferService transferService = new TransferService(API_BASE_URL);
     private AuthenticatedUser currentUser;
 
     public static void main(String[] args) {
@@ -90,19 +92,24 @@ public class App {
             consoleService.pause();
         }
     }
-    //*jaron/awal/kanae complete
+    //*jaron/awal
 	private void viewCurrentBalance() {
+
 		// TODO Auto-generated method stub
-    System.out.println(" This Your Current Balance $"+accountService.getBalance());
+
+       // System.out.println(currentUser.getUser().getId())
+        System.out.println(accountService.getBalance(currentUser));
+
         //Money model class
         //get balance
         //token
+
 	}
 
 	private void viewTransferHistory() {
 		// TODO Auto-generated method stub
         //log?
-        System.out.println("History");
+        System.out.println(transferService.viewTransferHistory(currentUser));
 		
 	}
 

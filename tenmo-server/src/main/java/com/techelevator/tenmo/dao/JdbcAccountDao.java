@@ -15,52 +15,44 @@ import java.util.ArrayList;
 import java.util.List;
 @Component
 
-public class jdbcAccountDao implements AccountDao{
+public class JdbcAccountDao implements AccountDao {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
     //*kanae/jaron
     @Override
     public BigDecimal getBalance(String user) {
         String sql = "select balance from account join tenmo_user on account.user_id = tenmo_user.user_id\n" +
                 "where username = ?;";
-        SqlRowSet result = jdbcTemplate.queryForRowSet(sql,user);
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user);
         Account account = new Account();
         BigDecimal balance = null;
-        if (result.next()){
-            balance=result.getBigDecimal("balance");
+        if (result.next()) {
+            balance = result.getBigDecimal("balance");
             account.setBalance(balance);
         }
         return balance;
     }
 
-    //*awal/jaron
+    @Override
     public int findIdByAccountId(int accountId) {
-        String sql = "SELECT *  FROM account WHERE account_id = ?;";
-        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, accountId);
-        if (id != null) {
-            return id;
-        } else {
-            return -1;
-        }
+        return 0;
     }
-    //*awal/jaron
-   // public int findDoubleGetBalance(double getBalance) {
 
-//        Integer id = jdbcTemplate.queryForObject(sql, Integer.class, getBalance);
-//        if (id != null) {
-//            return id;
-//        } else {
-//            return -1;
-//        }
-//    }
+    @Override
+    public Account getAccountByUserId(int userId) {
+        return null;
+    }
 
-    private User mapRowToUser(SqlRowSet rs) {
-        User user = new User();
-        user.setId(rs.getLong("account_id"));
-        user.setId(rs.getLong("user_id"));
-        user.setUsername(rs.getString("balance"));
-        return user;
-        }
+    @Override
+    public Account getAccountByAccountId(int accountId) {
+        return null;
+    }
 
+    @Override
+    public void updateAccount(Account account) {
+
+    }
 
 }

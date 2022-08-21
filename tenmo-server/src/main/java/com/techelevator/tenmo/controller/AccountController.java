@@ -21,12 +21,6 @@ public class AccountController {
     UserDao userDao;
     @Autowired
     AccountDao accountDao;
-//    @Autowired
-//    TransferDao transferDAO;
-//    @Autowired
-//    TransferTypeDao transferTypeDao;
-//    @Autowired
-//    TransferStatusDao transferStatusDAO;
 
 
     @RequestMapping(path = "/balance",method = RequestMethod.GET)

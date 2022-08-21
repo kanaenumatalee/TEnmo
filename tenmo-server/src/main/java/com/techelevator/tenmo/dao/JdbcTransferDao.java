@@ -21,8 +21,8 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<Transfer> getTransfersByUserId(int userId) {
         String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount FROM transfer AS t " +
-                      "JOIN account AS a ON a.user_id = t.account_from " +
-                      "WHERE a.user_id = ?";
+                     "JOIN account AS a ON a.user_id = t.account_from " +
+                     "WHERE a.user_id = ?";
         SqlRowSet result =jdbcTemplate.queryForRowSet(sql,userId);
         List<Transfer> transfer = new ArrayList<>();
         while (result.next()){
@@ -48,7 +48,18 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public List<Transfer> getAllTransfers() {
-        return null;
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, " +
+                     "account_from, account_to, amount " +
+                     "FROM transfer";
+
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
+        List<Transfer> transfers = new ArrayList<>();
+
+        while(results.next()){
+            transfers.add(mapResultToTransfer(results));
+        }
+
+        return transfers;
     }
 
     @Override
@@ -69,12 +80,13 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public void updateTransfer(Transfer transfer) {
+    public boolean updateTransfer(Transfer transfer) {
         String sql = "UPDATE transfer " +
                      "SET transfer_status_id = ? " +
                      "WHERE transfer_id = ?";
 
         jdbcTemplate.update(sql, transfer.getTransferStatusId(), transfer.getTransferId());
+        return false;
     }
 
     private Transfer mapResultToTransfer(SqlRowSet result) {

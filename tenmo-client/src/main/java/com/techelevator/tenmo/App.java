@@ -3,6 +3,8 @@ package com.techelevator.tenmo;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
 
+import java.math.BigDecimal;
+
 public class App {
 
     private static final String API_BASE_URL = "http://localhost:8080/";
@@ -10,8 +12,12 @@ public class App {
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final UserService userService = new UserService(API_BASE_URL);
     private final TransferService transferService = new TransferService(API_BASE_URL);
-    private UserService userService = new UserService(API_BASE_URL);
+    private final TransferTypeService transferTypeService = new TransferTypeService(API_BASE_URL);
+    private final TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
+
+
 
 
     private AuthenticatedUser currentUser;
@@ -113,11 +119,38 @@ public class App {
 
     }
 
+    private Transfer makeTransfer(long accountTo, String transferType, String statusDescription, BigDecimal amount) {
+        Transfer transfer = new Transfer();
+        long transferTypeId = transferTypeService.getTransferType(currentUser, transferType).getTransferTypeId();
+        long transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
+        long accountToId;
+        long accountFromId;
+        if(transferType.equals("Send")) {
+            accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
+            accountFromId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();
+        } else {
+            accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
+            accountToId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();
+        }
+
+        transfer.setAccountFrom(accountFromId);
+        transfer.setAccountTo(accountToId);
+        transfer.setAmount(amount);
+        transfer.setTransferStatusId(transferStatusId);
+        transfer.setTransferTypeId(transferTypeId);
+
+
+        transferService.makeTransfer(currentUser, transfer);
+        return transfer;
+    }
+
+
 
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
-        Transfer[] transfers = transferService.getAllTransfers(currentUser);
+        System.out.println("-----View transfer history------");
+        Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
             System.out.println(transfer);
         }
@@ -158,6 +191,7 @@ public class App {
     //As an authenticated user of the system, I need to be able to see my Pending transfers.
     private void viewPendingRequests() {
         // TODO Auto-generated method stub
+        System.out.println("-----View pending transfers------");
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         for(Transfer transfer: transfers) {
             System.out.println(transfer);

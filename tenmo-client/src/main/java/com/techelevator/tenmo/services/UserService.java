@@ -31,7 +31,7 @@ public class UserService {
         return users;
     }
 
-    public User getUserByUserId(AuthenticatedUser authenticatedUser, int id) {
+    public User getUserByUserId(AuthenticatedUser authenticatedUser, long id) {
         User user = null;
         try {
             user = restTemplate.exchange(baseUrl + "users/" + id, HttpMethod.GET,

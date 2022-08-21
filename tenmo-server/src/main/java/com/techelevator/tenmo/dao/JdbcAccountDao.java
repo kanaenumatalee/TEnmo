@@ -16,14 +16,16 @@ import java.util.List;
 @Component
 
 public class JdbcAccountDao implements AccountDao {
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     //*kanae/jaron
     @Override
     public BigDecimal getBalance(String user) {
-        String sql = "select balance from account join tenmo_user on account.user_id = tenmo_user.user_id\n" +
-                "where username = ?;";
+        String sql = "SELECT balance FROM account JOIN tenmo_user " +
+                     "ON account.user_id = tenmo_user.user_id " +
+                     "WHERE username = ?;";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, user);
         Account account = new Account();
         BigDecimal balance = null;
@@ -53,4 +55,5 @@ public class JdbcAccountDao implements AccountDao {
     public void updateAccount(Account account) {
 
     }
+
 }

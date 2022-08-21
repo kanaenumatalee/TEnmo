@@ -6,6 +6,7 @@ import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 import com.techelevator.tenmo.services.AuthenticationService;
 import com.techelevator.tenmo.services.ConsoleService;
+import com.techelevator.tenmo.services.TransferService;
 
 public class App {
 
@@ -13,12 +14,13 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
+    //*awal/jaron
+    //private Account currentAccount;
+
     //*kanae/jaron
     private final AccountService accountService = new AccountService(API_BASE_URL);
+    private final TransferService transferService = new TransferService(API_BASE_URL);
     private AuthenticatedUser currentUser;
-    private final Account account = new Account();
-
-
 
     public static void main(String[] args) {
         App app = new App();
@@ -90,44 +92,44 @@ public class App {
             consoleService.pause();
         }
     }
-    //*jaron/awal
-	private void viewCurrentBalance() {
 
-		// TODO Auto-generated method stub
-        System.out.println(accountService.getBalance(currentUser));
+    private void viewCurrentBalance() {
 
-	}
+        // TODO Auto-generated method stub
 
-	private void viewTransferHistory() {
-		// TODO Auto-generated method stub
-        //log?
-        System.out.println("History");
-		
-	}
+        System.out.println("Your current balance: $" + accountService.getBalance(currentUser));
 
-	private void viewPendingRequests() {
-		// TODO Auto-generated method stub
+    }
+
+    private void viewTransferHistory() {
+        // TODO Auto-generated method stub
+        System.out.println(transferService.viewTransferHistory(currentUser));
+
+    }
+
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stub
         System.out.println("Requests");
         //log
 
-	}
+    }
 
-	private void sendBucks() {
-		// TODO Auto-generated method stub
+    private void sendBucks() {
+        // TODO Auto-generated method stub
         //can't send ore than current amount
         //can't send 0 or negative amount
         //transfer to different id
         //see all users I could transfer to
         System.out.println("sent money");
         //consoleService.promptForBigDecimal()
-		
-	}
 
-	private void requestBucks() {
-		// TODO Auto-generated method stub
+    }
+
+    private void requestBucks() {
+        // TODO Auto-generated method stub
         System.out.println("Begged for money");
         //consoleService.promptForInt()
-		
-	}
+
+    }
 
 }

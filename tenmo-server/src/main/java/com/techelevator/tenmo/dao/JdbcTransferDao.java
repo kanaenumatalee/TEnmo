@@ -10,7 +10,6 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 @Component
-
 public class JdbcTransferDao implements TransferDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;

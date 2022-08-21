@@ -106,9 +106,9 @@ public class App {
     */
     private void sendBucks() {
         // TODO Auto-generated method stub
+        System.out.println("-----User list------");
         User[] users = userService.getAllUsers(currentUser);
-
-        System.out.println("sent money");
+        consoleService.printUsers(users);
 
 
     }

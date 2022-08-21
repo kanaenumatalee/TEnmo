@@ -92,7 +92,7 @@ public class ConsoleService {
 
     public void printUsers(User[] users) {
         for(User user: users) {
-            System.out.println(user.getId() + " " + user.getUsername());
+            System.out.println(user.getId() + "        " + user.getUsername());
         }
         System.out.flush();
     }

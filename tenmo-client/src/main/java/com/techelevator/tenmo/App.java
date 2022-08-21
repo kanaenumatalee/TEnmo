@@ -114,11 +114,15 @@ public class App {
     */
     private void sendBucks() {
         // TODO Auto-generated method stub
-        System.out.println("-----User list------");
+        System.out.println("----Here is your user list----");
+        System.out.println("UserID      Username");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users);
-        System.out.println("Please enter userID you would like to send to");
-
+        int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to: ");
+        if(isValidUserId(userIdInput, users, currentUser)) {
+            int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
+            makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
+        }
 
     }
 

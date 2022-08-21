@@ -7,7 +7,6 @@ import com.techelevator.tenmo.dao.UserDao;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferStatus;
 import com.techelevator.tenmo.model.TransferType;
-import com.techelevator.tenmo.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,41 +27,39 @@ public class TransferController {
     @Autowired
     TransferStatusDao transferStatusDAO;
 
-    //transferDao
-    @RequestMapping(path = "",method = RequestMethod.POST)
+    // makeTransfer
+    @RequestMapping(path = "", method = RequestMethod.POST)
     public void makeTransfer(@RequestBody Transfer transfer){
         transferDao.makeTransfer(transfer);
     }
 
-    @RequestMapping(path="", method = RequestMethod.GET)
-    public List<Transfer> getAllTransfers() {
+    @RequestMapping(path = "getTransfersByUserId/{id}", method = RequestMethod.GET)
+    public List<Transfer> getTransfersByUserId(@PathVariable int userId ){
+        return transferDao.getTransfersByUserId(userId);
+    }
+
+    @RequestMapping(path = "getTransferByTransferId/{id}", method = RequestMethod.GET)
+    public Transfer getTransferByTransferId (@PathVariable int transferId){
+        return transferDao.getTransferByTransferId(transferId);
+    }
+
+    @RequestMapping(path = "", method = RequestMethod.GET)
+    public List<Transfer> getAllTransfers(){
         return transferDao.getAllTransfers();
     }
 
 
-    @RequestMapping(path = "/{id}",method = RequestMethod.GET)
-    public List<Transfer> getTransfersByUserId(@PathVariable int userId){
-        return transferDao.getTransfersByUserId(userId);
-    }
-
-    @RequestMapping(path = "/{id}",method = RequestMethod.GET)
-    public Transfer getTransferByTransferId(@PathVariable int userId){
-        return transferDao.getTransferByTransferId(userId);
-    }
-
-    @RequestMapping(path = "/{id}",method = RequestMethod.GET)
-    public List<Transfer> getPendingTransfers(@PathVariable int userId){
+    // getPendingTransfers
+    @RequestMapping(path = "getPendingTransfers/{id}", method = RequestMethod.GET)
+    public List<Transfer> getPendingTransfers(@PathVariable int userId ){
         return transferDao.getPendingTransfers(userId);
     }
 
 
-    @RequestMapping(path ="/{id}",method = RequestMethod.PUT)
+    @RequestMapping(path ="updateTransfer/{id}",method = RequestMethod.PUT)
     public boolean updateTransfer(@RequestBody Transfer transfer){
         return transferDao.updateTransfer(transfer);
     }
-
-
-
 
     //TransferStatusDao
     @RequestMapping(path="/transferstatus/{description}", method = RequestMethod.GET)
@@ -88,9 +85,6 @@ public class TransferController {
     public TransferType getTransferDescFromId(@PathVariable int id)  {
         return transferTypeDao.getTransferTypeFromId(id);
     }
-
-
-
 
 
 }

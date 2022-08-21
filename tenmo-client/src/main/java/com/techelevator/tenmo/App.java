@@ -1,5 +1,7 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.exception.InvalidUserException;
+import com.techelevator.exception.NoUserFoundException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
 
@@ -115,9 +117,31 @@ public class App {
         System.out.println("-----User list------");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users);
+        System.out.println("Please enter userID you would like to send to");
 
 
     }
+
+    private boolean isValidUserId(long userId, User[] users, AuthenticatedUser authenticatedUser) {
+        boolean isValidId = false;
+        if(userId != 0) {
+            try {
+                for(User user : users) {
+                    if (userId == authenticatedUser.getUser().getId()) {
+                        throw new InvalidUserException();
+                    } else if(user.getId() == userId) {
+                        isValidId = true;
+                    } else {
+                        throw new NoUserFoundException();
+                    }
+                }
+            } catch(InvalidUserException | NoUserFoundException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return false;
+    }
+
 
     private Transfer makeTransfer(long accountTo, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();

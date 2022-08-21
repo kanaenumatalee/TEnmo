@@ -10,6 +10,6 @@ public interface TransferDao {
     Transfer getTransferByTransferId(int transferId);
     List<Transfer> getAllTransfers();
     List<Transfer> getPendingTransfers(int userId);
-    boolean updateTransfer(Transfer transfer);
+    void updateTransfer(Transfer transfer);
 
 }

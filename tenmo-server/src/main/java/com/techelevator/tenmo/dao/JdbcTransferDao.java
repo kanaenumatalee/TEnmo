@@ -22,8 +22,8 @@ public class JdbcTransferDao implements TransferDao {
     @Override
     public List<Transfer> getTransfersByUserId(int userId) {
         String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount FROM transfer AS t " +
-                "JOIN account AS a ON a.user_id = t.account_from " +
-                "WHERE a.user_id = ?";
+                      "JOIN account AS a ON a.user_id = t.account_from " +
+                      "WHERE a.user_id = ?";
         SqlRowSet result =jdbcTemplate.queryForRowSet(sql,userId);
         List<Transfer> transfer = new ArrayList<>();
         while (result.next()){
@@ -34,7 +34,17 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public Transfer getTransferByTransferId(int transferId) {
-        return null;
+        String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, " +
+                     "account_from, account_to, amount " +
+                     "FROM transfer WHERE transfer_id = ?";
+        SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transferId);
+        Transfer transfer = null;
+
+        if(result.next()){
+            transfer = mapResultToTransfer(result);
+        }
+
+        return transfer;
     }
 
     @Override
@@ -44,11 +54,29 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public List<Transfer> getPendingTransfers(int userId) {
-        return null;
+        String sql = "SELECT transfer_id, transfer_type_id, transfers.transfer_status_id, " +
+                     "account_from, account_to, amount " +
+                     "FROM transfers AS t " +
+                     "JOIN accounts AS a ON a.account_id = t.account_from " +
+                     "JOIN transfer_statuses AS ts ON t.transfer_status_id = ts.transfer_status_id " +
+                     "WHERE user_id = ? AND transfer_status_desc = 'Pending'";
+        SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
+        List<Transfer> transfers = new ArrayList<>();
+
+        while(results.next()) {
+            transfers.add(mapResultToTransfer(results));
+        }
+        return transfers;
     }
 
     @Override
-    public boolean updateTransfer(Transfer transfer) {return true;}
+    public void updateTransfer(Transfer transfer) {
+        String sql = "UPDATE transfer " +
+                     "SET transfer_status_id = ? " +
+                     "WHERE transfer_id = ?";
+
+        jdbcTemplate.update(sql, transfer.getTransferStatusId(), transfer.getTransferId());
+    }
 
     private Transfer mapResultToTransfer(SqlRowSet result) {
         int transferId = result.getInt("transfer_id");

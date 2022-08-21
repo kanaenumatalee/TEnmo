@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
 import java.security.Principal;
-//*kanae/jaron
+
 @RestController
 @PreAuthorize("isAuthenticated()")
 @RequestMapping("/balance")
 public class AccountController {
-    AccountDao accountDao ;
+    AccountDao accountDao;
     @RequestMapping(path = "/balance",method = RequestMethod.GET)
     public BigDecimal getBalance(Principal principal){
         return accountDao.getBalance(principal.getName());

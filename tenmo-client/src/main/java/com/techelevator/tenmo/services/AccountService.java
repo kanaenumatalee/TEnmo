@@ -12,16 +12,15 @@ import org.springframework.web.client.RestTemplate;
 import java.math.BigDecimal;
 
 public class AccountService {
-    //*jaron
+
     private final String baseUrl;
-    //*jaron
+
     private RestTemplate restTemplate = new RestTemplate();
 
     public AccountService(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    //*jaron/kanae
     public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         BigDecimal balance = null;
@@ -38,11 +37,41 @@ public class AccountService {
         return balance;
     }
 
-    //getAccountByUserId
-    //getAccountById
+
+    public Account getAccountByUserId(AuthenticatedUser authenticatedUser, int userId) {
+
+        Account account = null;
+        try {
+            account = restTemplate.exchange(baseUrl + "account/user/" + userId,
+                      HttpMethod.GET,
+                      makeEntity(authenticatedUser),
+                      Account.class).getBody();
+        } catch (RestClientResponseException e) {
+            System.out.println("Could not complete request. Code: " + e.getRawStatusCode());
+        } catch (ResourceAccessException e) {
+            System.out.println("Could not complete request due to server network issue. Please try again.");
+        }
+
+        return account;
+    }
 
 
-    //*jaron/kanae
+    public Account getAccountById(AuthenticatedUser authenticatedUser, int accountId) {
+        Account account = null;
+        try {
+            account = restTemplate.exchange(baseUrl + "account/" + accountId,
+                      HttpMethod.GET,
+                      makeEntity(authenticatedUser),
+                      Account.class).getBody();
+        } catch (RestClientResponseException e) {
+            System.out.println("Could not complete request. Code: " + e.getRawStatusCode());
+        } catch (ResourceAccessException e) {
+            System.out.println("Could not complete request due to server network issue. Please try again.");
+        }
+        return account;
+    }
+
+
     private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);

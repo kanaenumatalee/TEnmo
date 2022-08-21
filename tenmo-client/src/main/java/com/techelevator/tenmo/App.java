@@ -1,12 +1,7 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.tenmo.model.Account;
-import com.techelevator.tenmo.services.AccountService;
-import com.techelevator.tenmo.model.AuthenticatedUser;
-import com.techelevator.tenmo.model.UserCredentials;
-import com.techelevator.tenmo.services.AuthenticationService;
-import com.techelevator.tenmo.services.ConsoleService;
-import com.techelevator.tenmo.services.TransferService;
+import com.techelevator.tenmo.model.*;
+import com.techelevator.tenmo.services.*;
 
 public class App {
 
@@ -14,12 +9,11 @@ public class App {
 
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
-    //*awal/jaron
-    //private Account currentAccount;
-
-    //*kanae/jaron
     private final AccountService accountService = new AccountService(API_BASE_URL);
     private final TransferService transferService = new TransferService(API_BASE_URL);
+    private UserService userService = new UserService(API_BASE_URL);
+
+
     private AuthenticatedUser currentUser;
 
     public static void main(String[] args) {
@@ -65,7 +59,6 @@ public class App {
         currentUser = authenticationService.login(credentials);
         if (currentUser == null) {
             consoleService.printErrorMessage();
-            //generate token?
         }
     }
 
@@ -93,43 +86,96 @@ public class App {
         }
     }
 
+    // As an authenticated user of the system, I need to be able to see my Account Balance.
     private void viewCurrentBalance() {
-
         // TODO Auto-generated method stub
-
         System.out.println("Your current balance: $" + accountService.getBalance(currentUser));
-
     }
 
-    private void viewTransferHistory() {
-        // TODO Auto-generated method stub
-        System.out.println(transferService.viewTransferHistory(currentUser));
 
-    }
-
-    private void viewPendingRequests() {
-        // TODO Auto-generated method stub
-        System.out.println("Requests");
-        //log
-
-    }
-
+    /*
+    As an authenticated user of the system, I need to be able to send a transfer of a specific amount of TE Bucks to a registered user.
+    I should be able to choose from a list of users to send TE Bucks to.
+    I must not be allowed to send money to myself.
+    A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
+    The receiver's account balance is increased by the amount of the transfer.
+    The sender's account balance is decreased by the amount of the transfer.
+    I can't send more TE Bucks than I have in my account.
+    I can't send a zero or negative amount.
+    A Sending Transfer has an initial status of Approved.
+    */
     private void sendBucks() {
         // TODO Auto-generated method stub
-        //can't send ore than current amount
-        //can't send 0 or negative amount
-        //transfer to different id
-        //see all users I could transfer to
+        User[] users = userService.getAllUsers(currentUser);
+
         System.out.println("sent money");
-        //consoleService.promptForBigDecimal()
+
 
     }
 
+
+    //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
+    private void viewTransferHistory() {
+        // TODO Auto-generated method stub
+        Transfer[] transfers = transferService.getAllTransfers(currentUser);
+        for(Transfer transfer: transfers) {
+            System.out.println(transfer);
+        }
+
+    }
+
+
+    /*
+    As an authenticated user of the system, I need to be able to retrieve the details of any transfer based upon the transfer ID.
+    */
+
+
+
+
+
+
+
+    /*
+    As an authenticated user of the system, I need to be able to request a transfer of a specific amount of TE Bucks from another registered user.
+    I should be able to choose from a list of users to request TE Bucks from.
+    I must not be allowed to request money from myself.
+    I can't request a zero or negative amount.
+    A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
+    A Request Transfer has an initial status of Pending.
+    No account balance changes until the request is approved.
+    The transfer request should appear in both users' list of transfers (use case #5).
+    */
     private void requestBucks() {
         // TODO Auto-generated method stub
+        User[] users = userService.getAllUsers(currentUser);
         System.out.println("Begged for money");
         //consoleService.promptForInt()
 
     }
+
+
+
+    //As an authenticated user of the system, I need to be able to see my Pending transfers.
+    private void viewPendingRequests() {
+        // TODO Auto-generated method stub
+        Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
+        for(Transfer transfer: transfers) {
+            System.out.println(transfer);
+        }
+
+    }
+
+
+
+
+
+    /*
+    As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
+    I can't "approve" a given Request Transfer for more TE Bucks than I have in my account.
+    The Request Transfer status is Approved if I approve, or Rejected if I reject the request.
+    If the transfer is approved, the requester's account balance is increased by the amount of the request.
+    If the transfer is approved, the requestee's account balance is decreased by the amount of the request.
+    If the transfer is rejected, no account balance changes.
+    */
 
 }

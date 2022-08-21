@@ -20,12 +20,12 @@ public class TransferController {
 
     @Autowired
     UserDao userDao;
-    @Autowired
-    TransferDao transferDAO;
-    @Autowired
-    TransferTypeDao transferTypeDao;
-    @Autowired
-    TransferStatusDao transferStatusDAO;
+//    @Autowired
+//    TransferDao transferDAO;
+//    @Autowired
+//    TransferTypeDao transferTypeDao;
+//    @Autowired
+//    TransferStatusDao transferStatusDAO;
 
 
 

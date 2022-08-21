@@ -21,7 +21,7 @@ public class UserService {
     public User[] getAllUsers(AuthenticatedUser authenticatedUser) {
         User[] users = null;
         try {
-            users = restTemplate.exchange(baseUrl + "users",
+            users = restTemplate.exchange(baseUrl + "account/users",
                     HttpMethod.GET, makeEntity(authenticatedUser), User[].class).getBody();
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());

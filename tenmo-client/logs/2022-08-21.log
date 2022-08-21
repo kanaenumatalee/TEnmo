@@ -7,3 +7,5 @@
 2022-08-21T09:46:08.551413 404 : 
 2022-08-21T10:10:54.450297 404 : 
 2022-08-21T12:13:45.270238 404 : 
+2022-08-21T16:35:55.410905 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2022-08-21T16:52:20.503592 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)

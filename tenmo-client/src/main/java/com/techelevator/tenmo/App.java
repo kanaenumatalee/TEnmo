@@ -115,7 +115,7 @@ public class App {
     private void sendBucks() {
         // TODO Auto-generated method stub
         System.out.println("----Here is your user list----");
-        System.out.println("UserID      Username");
+        System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users);
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to: ");
@@ -208,9 +208,15 @@ public class App {
     */
     private void requestBucks() {
         // TODO Auto-generated method stub
+        System.out.println("----Here is your user list----");
+        System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
-        System.out.println("Begged for money");
-        //consoleService.promptForInt()
+        consoleService.printUsers(users);
+        int userIdInput = consoleService.promptForInt("Please enter UserID you would like to request from: ");
+        if(isValidUserId(userIdInput, users, currentUser)) {
+            int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
+            makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
+        }
 
     }
 

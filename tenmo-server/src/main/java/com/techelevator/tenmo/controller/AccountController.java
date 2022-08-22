@@ -36,13 +36,13 @@ public class AccountController {
 
     // findIdByAccountId
     @RequestMapping(value = "findIdByAccountId/{id}", method = RequestMethod.GET)
-    public int findIdByAccountId(@PathVariable int userId ){
+    public int findIdByAccountId(@PathVariable long userId){
         return accountDao.findIdByAccountId(userId);
     }
 
     // getAccountByUserId
     @RequestMapping(value = "getAccountByUserId/{id}", method = RequestMethod.GET)
-    public Account getAccountByUserId(@PathVariable int userId ){
+    public Account getAccountByUserId(@PathVariable long userId){
         return accountDao.getAccountByUserId(userId);
     }
 
@@ -50,7 +50,7 @@ public class AccountController {
 
     // getAccountByAccountId
     @RequestMapping(value = "getAccountByAccountId/{id}",method = RequestMethod.GET)
-    public Account getAccountByAccountId(@PathVariable int accountId ){
+    public Account getAccountByAccountId(@PathVariable long accountId){
         return accountDao.getAccountByAccountId(accountId);
     }
 

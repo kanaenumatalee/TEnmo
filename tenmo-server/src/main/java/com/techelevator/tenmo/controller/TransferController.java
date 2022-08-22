@@ -1,9 +1,8 @@
 package com.techelevator.tenmo.controller;
 
-import com.techelevator.tenmo.dao.TransferDao;
-import com.techelevator.tenmo.dao.TransferStatusDao;
-import com.techelevator.tenmo.dao.TransferTypeDao;
-import com.techelevator.tenmo.dao.UserDao;
+import com.techelevator.tenmo.dao.*;
+import com.techelevator.tenmo.exception.InsufficientBalanceException;
+import com.techelevator.tenmo.model.Account;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferStatus;
 import com.techelevator.tenmo.model.TransferType;
@@ -11,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
@@ -26,15 +26,27 @@ public class TransferController {
     TransferTypeDao transferTypeDao;
     @Autowired
     TransferStatusDao transferStatusDAO;
+    @Autowired
+    AccountDao accountDao;
 
     // makeTransfer
-    @RequestMapping(path = "", method = RequestMethod.POST)
-    public void makeTransfer(@RequestBody Transfer transfer){
+    @RequestMapping(path = "{id}", method = RequestMethod.POST)
+    public void makeTransfer(@RequestBody Transfer transfer, @PathVariable long id) throws InsufficientBalanceException {
+
+        BigDecimal transferAmount = transfer.getAmount();
+        Account accountFrom = accountDao.getAccountByAccountId(transfer.getAccountFrom());
+        Account accountTo = accountDao.getAccountByAccountId(transfer.getAccountTo());
+
+        accountFrom.sendMoney(transferAmount);
+        accountTo.getMoney(transferAmount);
+
+        accountDao.updateAccount(accountFrom);
+        accountDao.updateAccount(accountTo);
         transferDao.makeTransfer(transfer);
     }
 
     @RequestMapping(path = "getTransfersByUserId/{id}", method = RequestMethod.GET)
-    public List<Transfer> getTransfersByUserId(@PathVariable int userId ){
+    public List<Transfer> getTransfersByUserId(@PathVariable int userId){
         return transferDao.getTransfersByUserId(userId);
     }
 

@@ -1,5 +1,7 @@
 package com.techelevator.tenmo.model;
 
+import com.techelevator.tenmo.exception.InsufficientBalanceException;
+
 import java.math.BigDecimal;
 
 public class Account {
@@ -40,6 +42,26 @@ public class Account {
     public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
+
+
+
+
+    public void sendMoney(BigDecimal money) throws InsufficientBalanceException {
+        BigDecimal newBalance = new BigDecimal(String.valueOf(balance.subtract(money)));
+        if(newBalance.compareTo(BigDecimal.ZERO) >= 0) {
+            this.balance = newBalance;
+        } else {
+            throw new InsufficientBalanceException();
+        }
+    }
+
+    public void getMoney(BigDecimal money) {
+        this.balance = new BigDecimal(String.valueOf(balance)).add(money);
+    }
+
+
+
+
 
     @Override
     public String toString() {

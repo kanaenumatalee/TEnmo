@@ -39,13 +39,18 @@ public class TransferController {
     }
 
     @RequestMapping(path = "getTransferByTransferId/{id}", method = RequestMethod.GET)
-    public Transfer getTransferByTransferId (@PathVariable int transferId){
+    public Transfer getTransferByTransferId(@PathVariable int transferId){
         return transferDao.getTransferByTransferId(transferId);
     }
 
     @RequestMapping(path = "", method = RequestMethod.GET)
     public List<Transfer> getAllTransfers(){
         return transferDao.getAllTransfers();
+    }
+
+    @RequestMapping(path ="updateTransfer/{id}",method = RequestMethod.PUT)
+    public boolean updateTransfer(@RequestBody Transfer transfer){
+        return transferDao.updateTransfer(transfer);
     }
 
 
@@ -56,10 +61,6 @@ public class TransferController {
     }
 
 
-    @RequestMapping(path ="updateTransfer/{id}",method = RequestMethod.PUT)
-    public boolean updateTransfer(@RequestBody Transfer transfer){
-        return transferDao.updateTransfer(transfer);
-    }
 
     //TransferStatusDao
     @RequestMapping(path="/transferstatus/{description}", method = RequestMethod.GET)

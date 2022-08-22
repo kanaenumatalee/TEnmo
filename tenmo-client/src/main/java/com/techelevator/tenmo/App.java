@@ -131,10 +131,11 @@ public class App {
         if(userId != 0) {
             try {
                 for(User user : users) {
-                    if (userId == authenticatedUser.getUser().getId()) {
+                    if (userId == authenticatedUser.getUser().getId()) {   //user choose themselves = error
                         throw new InvalidUserException();
                     } else if(user.getId() == userId) {
                         isValidId = true;
+                        break;
                     } else {
                         throw new NoUserFoundException();
                     }
@@ -143,7 +144,7 @@ public class App {
                 System.out.println(e.getMessage());
             }
         }
-        return false;
+        return isValidId;
     }
 
 

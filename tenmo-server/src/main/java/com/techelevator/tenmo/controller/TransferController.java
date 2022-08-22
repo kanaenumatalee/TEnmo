@@ -30,7 +30,7 @@ public class TransferController {
     AccountDao accountDao;
 
     // makeTransfer
-    @RequestMapping(path = "{id}", method = RequestMethod.POST)
+    @RequestMapping(path = "transfertype/{id}", method = RequestMethod.POST)
     public void makeTransfer(@RequestBody Transfer transfer, @PathVariable long id) throws InsufficientBalanceException {
 
         BigDecimal transferAmount = transfer.getAmount();

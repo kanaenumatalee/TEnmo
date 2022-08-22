@@ -14,7 +14,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
-@RequestMapping("/account")
+@RequestMapping("/account/")
 public class AccountController {
 
     @Autowired
@@ -23,12 +23,12 @@ public class AccountController {
     AccountDao accountDao;
 
 
-    @RequestMapping(value = "/balance", method = RequestMethod.GET)
+    @RequestMapping(value = "balance", method = RequestMethod.GET)
     public BigDecimal getBalance(Principal principal){
         return accountDao.getBalance(principal.getName());
     }
 
-    @RequestMapping(value = "/users", method = RequestMethod.GET)
+    @RequestMapping(value = "users", method = RequestMethod.GET)
     public List<User> getUsers() {
         return userDao.findAll();
     }

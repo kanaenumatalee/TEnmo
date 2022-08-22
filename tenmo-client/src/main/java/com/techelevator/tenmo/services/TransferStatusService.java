@@ -15,7 +15,7 @@ public class TransferStatusService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public TransferStatusService(String baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl + "transfer/";
     }
 
     public TransferStatus getTransferStatus(AuthenticatedUser authenticatedUser, String description) {

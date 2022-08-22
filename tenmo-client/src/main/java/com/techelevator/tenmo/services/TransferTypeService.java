@@ -15,7 +15,7 @@ public class TransferTypeService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public TransferTypeService(String baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl + "transfer/";
     }
 
     public TransferType getTransferType(AuthenticatedUser authenticatedUser, String description) {

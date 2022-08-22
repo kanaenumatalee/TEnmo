@@ -21,7 +21,7 @@ public class TransferService {
 
 
     public TransferService(String baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl + "transfer/";
     }
 
 
@@ -32,7 +32,7 @@ public class TransferService {
         Transfer[] transfer= new Transfer[0];
 
         try {
-            transfer = restTemplate.exchange(baseUrl + "transfer",
+            transfer = restTemplate.exchange(baseUrl,
                        HttpMethod.GET,
                        entity,
                        Transfer[].class).getBody();
@@ -49,7 +49,7 @@ public class TransferService {
     public void makeTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            restTemplate.exchange(baseUrl + "transfer/" + transfer.getTransferId(),
+            restTemplate.exchange(baseUrl + "transfertype/" + transfer.getTransferId(),
                                  HttpMethod.POST, entity, Transfer.class);
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());

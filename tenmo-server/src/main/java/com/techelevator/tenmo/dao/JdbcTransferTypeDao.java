@@ -21,7 +21,7 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
         TransferType transferType = null;
 
         if(result.next()) {
-            int transferTypeId = result.getInt("transfer_type_id");
+            long transferTypeId = result.getLong("transfer_type_id");
             String transferTypeDescription = result.getString("transfer_type_desc");
             transferType = new TransferType(transferTypeId, transferTypeDescription);
         }
@@ -29,7 +29,7 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
     }
 
     @Override
-    public TransferType getTransferTypeFromId(int transferId) {
+    public TransferType getTransferTypeFromId(long transferId) {
         String sql = "SELECT transfer_type_id, transfer_type_desc " +
                      "FROM transfer_types " +
                      "WHERE transfer_type_id = ?";
@@ -38,7 +38,7 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
         TransferType transferType = null;
 
         if(result.next()) {
-            int transferTypeId = result.getInt("transfer_type_id");
+            long transferTypeId = result.getLong("transfer_type_id");
             String transferTypeDesc = result.getString("transfer_type_desc");
             transferType = new TransferType(transferTypeId, transferTypeDesc);
         }

@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @PreAuthorize("isAuthenticated()")
-@RequestMapping("/transfer")
+@RequestMapping("/transfer/")
 public class TransferController {
 
     @Autowired

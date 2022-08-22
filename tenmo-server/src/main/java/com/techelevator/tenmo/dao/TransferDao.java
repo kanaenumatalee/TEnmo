@@ -6,10 +6,10 @@ import java.util.List;
 
 public interface TransferDao {
     void makeTransfer(Transfer transfer);
-    List<Transfer> getTransfersByUserId(int userId);
-    Transfer getTransferByTransferId(int transferId);
+    List<Transfer> getTransfersByUserId(long userId);
+    Transfer getTransferByTransferId(long transferId);
     List<Transfer> getAllTransfers();
-    List<Transfer> getPendingTransfers(int userId);
+    List<Transfer> getPendingTransfers(long userId);
     boolean updateTransfer(Transfer transfer);
 
 }

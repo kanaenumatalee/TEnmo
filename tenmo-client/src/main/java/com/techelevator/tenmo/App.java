@@ -148,12 +148,12 @@ public class App {
     }
 
 
-    private Transfer makeTransfer(long accountTo, String transferType, String statusDescription, BigDecimal amount) {
+    private Transfer makeTransfer(int accountTo, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
-        long transferTypeId = transferTypeService.getTransferType(currentUser, transferType).getTransferTypeId();
-        long transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
-        long accountToId;
-        long accountFromId;
+        int transferTypeId = transferTypeService.getTransferType(currentUser, transferType).getTransferTypeId();
+        int transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
+        int accountToId;
+        int accountFromId;
         if(transferType.equals("Send")) {
             accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();

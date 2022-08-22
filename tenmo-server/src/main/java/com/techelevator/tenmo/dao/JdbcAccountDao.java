@@ -35,7 +35,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public int findIdByAccountId(long accountId) {
+    public int findIdByAccountId(int accountId) {
 
         String sql = "SELECT user_id FROM account WHERE account_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, accountId);
@@ -47,7 +47,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccountByUserId(long userId) {
+    public Account getAccountByUserId(int userId) {
         String sql = "SELECT account_id, user_id, balance FROM account WHERE user_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, userId);
         Account account = null;
@@ -58,7 +58,7 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     @Override
-    public Account getAccountByAccountId(long accountId) {
+    public Account getAccountByAccountId(int accountId) {
         String sql = "SELECT account_id, user_id, balance FROM account WHERE account_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, accountId);
         Account account = null;

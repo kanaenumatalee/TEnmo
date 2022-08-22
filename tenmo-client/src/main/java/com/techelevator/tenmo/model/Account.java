@@ -3,9 +3,9 @@ package com.techelevator.tenmo.model;
 import java.math.BigDecimal;
 //*kanae/jaron
 public class Account {
-    private long userId;
+    private int userId;
 
-    private long accountId;
+    private int accountId;
 
     private BigDecimal balance;
 
@@ -13,19 +13,19 @@ public class Account {
         return balance;
     }
 
-    public long getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(long userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
-    public long getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(long accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 

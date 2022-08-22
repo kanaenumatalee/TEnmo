@@ -4,5 +4,5 @@ import com.techelevator.tenmo.model.TransferType;
 
 public interface TransferTypeDao {
     TransferType getTransferTypeFromDescription(String description);
-    TransferType getTransferTypeFromId(long transferId);
+    TransferType getTransferTypeFromId(int transferId);
 }

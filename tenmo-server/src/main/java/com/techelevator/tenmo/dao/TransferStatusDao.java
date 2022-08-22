@@ -6,6 +6,6 @@ public interface TransferStatusDao {
 
     TransferStatus getTransferStatusByDesc(String description);
 
-    TransferStatus getTransferStatusById(long transferStatusId);
+    TransferStatus getTransferStatusById(int transferStatusId);
 
 }

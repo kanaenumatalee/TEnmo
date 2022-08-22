@@ -38,7 +38,7 @@ public class AccountService {
     }
 
 
-    public Account getAccountByUserId(AuthenticatedUser authenticatedUser, long userId) {
+    public Account getAccountByUserId(AuthenticatedUser authenticatedUser, int userId) {
 
         Account account = null;
         try {
@@ -56,7 +56,7 @@ public class AccountService {
     }
 
 
-    public Account getAccountById(AuthenticatedUser authenticatedUser, long accountId) {
+    public Account getAccountById(AuthenticatedUser authenticatedUser, int accountId) {
         Account account = null;
         try {
             account = restTemplate.exchange(baseUrl + "account/" + accountId,

@@ -7,10 +7,10 @@ import java.math.BigDecimal;
 //*kanae/jaron
 public interface AccountDao {
     BigDecimal getBalance(String user);
-    int findIdByAccountId(long accountId);
+    int findIdByAccountId(int accountId);
 
-    Account getAccountByUserId(long userId);
-    Account getAccountByAccountId(long accountId);
+    Account getAccountByUserId(int userId);
+    Account getAccountByAccountId(int accountId);
 
     void updateAccount(Account account);
 

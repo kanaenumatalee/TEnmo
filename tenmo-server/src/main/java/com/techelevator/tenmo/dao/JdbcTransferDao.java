@@ -26,7 +26,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> getTransfersByUserId(long userId) {
+    public List<Transfer> getTransfersByUserId(int userId) {
         String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, account_from, account_to, amount FROM transfer AS t " +
                      "JOIN account AS a ON a.user_id = t.account_from " +
                      "WHERE a.user_id = ?";
@@ -39,7 +39,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public Transfer getTransferByTransferId(long transferId) {
+    public Transfer getTransferByTransferId(int transferId) {
         String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, " +
                      "account_from, account_to, amount " +
                      "FROM transfer WHERE transfer_id = ?";
@@ -70,7 +70,7 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     @Override
-    public List<Transfer> getPendingTransfers(long userId) {
+    public List<Transfer> getPendingTransfers(int userId) {
         String sql = "SELECT transfer_id, transfer_type_id, transfers.transfer_status_id, " +
                      "account_from, account_to, amount " +
                      "FROM transfers AS t " +
@@ -97,11 +97,11 @@ public class JdbcTransferDao implements TransferDao {
     }
 
     private Transfer mapResultToTransfer(SqlRowSet result) {
-        long transferId = result.getLong("transfer_id");
-        long transferTypeId = result.getLong("transfer_type_id");
-        long transferStatusId = result.getLong("transfer_status_id");
-        long accountFrom = result.getLong("account_from");
-        long accountTo = result.getLong("account_to");
+        int transferId = result.getInt("transfer_id");
+        int transferTypeId = result.getInt("transfer_type_id");
+        int transferStatusId = result.getInt("transfer_status_id");
+        int accountFrom = result.getInt("account_from");
+        int accountTo = result.getInt("account_to");
         BigDecimal amount = result.getBigDecimal("amount");
 
         Transfer transfer = new Transfer(transferId, transferTypeId, transferStatusId, accountFrom, accountTo, amount);

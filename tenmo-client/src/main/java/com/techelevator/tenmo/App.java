@@ -156,10 +156,10 @@ public class App {
         int accountFromId;
         if(transferType.equals("Send")) {
             accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
-            accountFromId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();
+            accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
         } else {
             accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
-            accountToId = accountService.getAccountByUserId(currentUser, currentUser.getUser().getId()).getAccountId();
+            accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
         }
 
         transfer.setAccountFrom(accountFromId);

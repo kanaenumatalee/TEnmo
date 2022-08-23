@@ -30,7 +30,7 @@ public class TransferController {
     AccountDao accountDao;
 
     // makeTransfer
-    @RequestMapping(path = "transfers/{id}", method = RequestMethod.POST)
+    @RequestMapping(path = "users/{id}", method = RequestMethod.POST)
     public void makeTransfer(@RequestBody Transfer transfer, @PathVariable long id) throws InsufficientBalanceException {
 
         BigDecimal transferAmount = transfer.getAmount();
@@ -45,29 +45,29 @@ public class TransferController {
         transferDao.makeTransfer(transfer);
     }
 
-    @RequestMapping(path = "transfers/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(path = "users/{userId}", method = RequestMethod.GET)
     public List<Transfer> getTransfersByUserId(@PathVariable int userId){
         return transferDao.getTransfersByUserId(userId);
     }
 
-    @RequestMapping(path = "transfers/user/{transferId}", method = RequestMethod.GET)
+    @RequestMapping(path = "users/{transferId}", method = RequestMethod.GET)
     public Transfer getTransferByTransferId(@PathVariable int transferId){
         return transferDao.getTransferByTransferId(transferId);
     }
 
-    @RequestMapping(path = "/transfers", method = RequestMethod.GET)
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public List<Transfer> getAllTransfers(){
         return transferDao.getAllTransfers();
     }
 
-    @RequestMapping(path ="transfers/{id}",method = RequestMethod.PUT)
+    @RequestMapping(path ="users/{id}",method = RequestMethod.PUT)
     public boolean updateTransfer(@RequestBody Transfer transfer){
         return transferDao.updateTransfer(transfer);
     }
 
 
     // getPendingTransfers
-    @RequestMapping(path = "transfers/user/{userId}/pending", method = RequestMethod.GET)
+    @RequestMapping(path = "users/{userId}/pending", method = RequestMethod.GET)
     public List<Transfer> getPendingTransfers(@PathVariable int userId ){
         return transferDao.getPendingTransfers(userId);
     }

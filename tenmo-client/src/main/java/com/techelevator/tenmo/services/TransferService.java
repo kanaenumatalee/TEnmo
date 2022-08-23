@@ -31,7 +31,7 @@ public class TransferService {
         Transfer[] transfer= new Transfer[0];
 
         try {
-            transfer = restTemplate.exchange(baseUrl + "transfers",
+            transfer = restTemplate.exchange(baseUrl,
                        HttpMethod.GET,
                        entity,
                        Transfer[].class).getBody();
@@ -48,7 +48,7 @@ public class TransferService {
     public void makeTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
+            restTemplate.exchange(baseUrl + "users/" + transfer.getTransferId(),
                                  HttpMethod.POST, entity, Transfer.class);
         } catch (RestClientResponseException e) {
             if(e.getMessage().equals("Not enough balance in your account.")) {
@@ -69,7 +69,7 @@ public class TransferService {
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(baseUrl + "transfers/users/" + userId,
+            transfers = restTemplate.exchange(baseUrl + "users/" + userId,
                         HttpMethod.GET,
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
@@ -89,7 +89,7 @@ public class TransferService {
     public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int transferId) {
         Transfer transfer = null;
         try {
-            transfer = restTemplate.exchange(baseUrl + "/transfers/" + transferId,
+            transfer = restTemplate.exchange(baseUrl + "users/" + transferId,
                        HttpMethod.GET,
                        makeEntity(authenticatedUser),
                        Transfer.class).getBody();
@@ -110,7 +110,7 @@ public class TransferService {
         Transfer[] transfers = new Transfer[0];
 
         try {
-            transfers = restTemplate.exchange(baseUrl + "/transfers",
+            transfers = restTemplate.exchange(baseUrl,
                         HttpMethod.GET,
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
@@ -129,7 +129,7 @@ public class TransferService {
     public Transfer[] getPendingTransfersByUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(baseUrl + "/transfers/users/" +
+            transfers = restTemplate.exchange(baseUrl + "users/" +
                         authenticatedUser.getUser().getId() + "/pending",
                         HttpMethod.GET,
                         makeEntity(authenticatedUser),
@@ -149,7 +149,7 @@ public class TransferService {
     public void updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity<Transfer> entity = new HttpEntity(transfer);
         try {
-            restTemplate.exchange(baseUrl + "/transfers/" + transfer.getTransferId(),
+            restTemplate.exchange(baseUrl + transfer.getTransferId(),
                                   HttpMethod.PUT, entity, Transfer.class);
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());

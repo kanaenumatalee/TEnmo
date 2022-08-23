@@ -50,7 +50,7 @@ public class TransferController {
         return transferDao.getTransfersByUserId(userId);
     }
 
-    @RequestMapping(path = "users/{transferId}", method = RequestMethod.GET)
+    @RequestMapping(path = "{transferId}", method = RequestMethod.GET)
     public Transfer getTransferByTransferId(@PathVariable int transferId){
         return transferDao.getTransferByTransferId(transferId);
     }

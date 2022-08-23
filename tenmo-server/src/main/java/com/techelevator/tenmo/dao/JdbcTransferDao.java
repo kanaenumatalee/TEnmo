@@ -72,12 +72,11 @@ public class JdbcTransferDao implements TransferDao {
 
     @Override
     public List<Transfer> getPendingTransfers(int userId) {
-        String sql = "SELECT transfer_id, transfer_type_id, transfers.transfer_status_id, " +
-                     "account_from, account_to, amount " +
+        String sql = "SELECT transfer_id, transfer_type_id, t.transfer_status_id, account_from, account_to, amount " +
                      "FROM transfer AS t " +
                      "JOIN account AS a ON a.account_id = t.account_from " +
-                     "JOIN transfer_statuses AS ts ON t.transfer_status_id = ts.transfer_status_id " +
-                     "WHERE user_id = ? AND transfer_status_desc = 'Pending'";
+                     "JOIN transfer_status AS ts ON t.transfer_status_id = ts.transfer_status_id " +
+                     "WHERE user_id = ? AND ts.transfer_status_id = 1";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId);
         List<Transfer> transfers = new ArrayList<>();
 

@@ -89,7 +89,7 @@ public class TransferService {
     public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int transferId) {
         Transfer transfer = null;
         try {
-            transfer = restTemplate.exchange(baseUrl + "users/" + transferId,
+            transfer = restTemplate.exchange(baseUrl + transferId,
                        HttpMethod.GET,
                        makeEntity(authenticatedUser),
                        Transfer.class).getBody();

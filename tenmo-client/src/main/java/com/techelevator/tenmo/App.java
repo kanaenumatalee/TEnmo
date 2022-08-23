@@ -118,14 +118,14 @@ public class App {
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to: ");
-        if(isValidUserId(userIdInput, users, currentUser)) {
+        if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
             makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
         }
 
     }
 
-    private boolean isValidUserId(long userId, User[] users, AuthenticatedUser authenticatedUser) {
+    private boolean isValidUserId(long userId, User[] users) {
         boolean isValidId = false;
         if(userId != 0) {
             try {
@@ -135,7 +135,7 @@ public class App {
                         break;
                     }
                 }
-                if (isValidId == false){
+                if (!isValidId){
                     throw new NoUserFoundException();
                 }
                return true;
@@ -214,7 +214,7 @@ public class App {
         consoleService.printUsers(users, currentUser);
 
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to request from: ");
-        if(isValidUserId(userIdInput, users, currentUser)) {
+        if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
             makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
         }

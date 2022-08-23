@@ -30,8 +30,10 @@ public class AccountService {
                                                 entity,
                                                 BigDecimal.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return balance;
@@ -47,9 +49,9 @@ public class AccountService {
                       makeEntity(authenticatedUser),
                       Account.class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Could not complete request. Code: " + e.getRawStatusCode());
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
         } catch (ResourceAccessException e) {
-            System.out.println("Could not complete request due to server network issue. Please try again.");
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
         }
 
         return account;
@@ -64,9 +66,9 @@ public class AccountService {
                       makeEntity(authenticatedUser),
                       Account.class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Could not complete request. Code: " + e.getRawStatusCode());
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
         } catch (ResourceAccessException e) {
-            System.out.println("Could not complete request due to server network issue. Please try again.");
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
         }
         return account;
     }

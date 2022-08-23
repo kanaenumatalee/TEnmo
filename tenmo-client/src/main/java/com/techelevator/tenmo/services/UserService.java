@@ -24,8 +24,10 @@ public class UserService {
             users = restTemplate.exchange(baseUrl + "account/users",
                     HttpMethod.GET, makeEntity(authenticatedUser), User[].class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return users;
@@ -37,11 +39,12 @@ public class UserService {
             user = restTemplate.exchange(baseUrl + "users/" + id, HttpMethod.GET,
                    makeEntity(authenticatedUser), User.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
-
         return user;
     }
 

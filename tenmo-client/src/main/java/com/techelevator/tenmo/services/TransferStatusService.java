@@ -21,12 +21,14 @@ public class TransferStatusService {
     public TransferStatus getTransferStatus(AuthenticatedUser authenticatedUser, String description) {
         TransferStatus transferStatus = null;
         try {
-            String url = baseUrl + "transferstatus/filter?description=" + description;
+            String url = baseUrl + "transfer_status/filter?description=" + description;
             transferStatus = restTemplate.exchange(url, HttpMethod.GET,
                              makeEntity(authenticatedUser), TransferStatus.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transferStatus;
@@ -36,12 +38,14 @@ public class TransferStatusService {
     public TransferStatus getTransferStatusById(AuthenticatedUser authenticatedUser, int transferStatusId) {
         TransferStatus transferStatus = null;
         try {
-            String url = baseUrl + "transferstatus/" + transferStatusId;
+            String url = baseUrl + "transfer_status/" + transferStatusId;
             transferStatus = restTemplate.exchange(url, HttpMethod.GET, makeEntity(authenticatedUser),
                              TransferStatus.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
 

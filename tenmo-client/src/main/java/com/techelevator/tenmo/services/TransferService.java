@@ -26,7 +26,6 @@ public class TransferService {
 
 
 
-
     public Transfer[] viewTransferHistory(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         Transfer[] transfer= new Transfer[0];
@@ -52,8 +51,14 @@ public class TransferService {
             restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
                                  HttpMethod.POST, entity, Transfer.class);
         } catch (RestClientResponseException e) {
+            if(e.getMessage().equals("Not enough balance in your account.")) {
+                System.out.println("You do not have enough balance for your transaction.");
+            } else {
+                System.out.println("Failed to complete your request. Code : " + e.getStatusText());
+            }
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
     }
@@ -69,8 +74,10 @@ public class TransferService {
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transfers;
@@ -87,8 +94,10 @@ public class TransferService {
                        makeEntity(authenticatedUser),
                        Transfer.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transfer;
@@ -106,8 +115,10 @@ public class TransferService {
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transfers;
@@ -124,8 +135,10 @@ public class TransferService {
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transfers;
@@ -139,8 +152,10 @@ public class TransferService {
             restTemplate.exchange(baseUrl + "/transfers/" + transfer.getTransferId(),
                                   HttpMethod.PUT, entity, Transfer.class);
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
     }

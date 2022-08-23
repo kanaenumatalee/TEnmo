@@ -22,12 +22,14 @@ public class TransferTypeService {
         TransferType transferType = null;
 
         try {
-            String url = baseUrl + "/transfertype/filter?description=" + description;
+            String url = baseUrl + "/transfer_type/filter?description=" + description;
             transferType = restTemplate.exchange(url, HttpMethod.GET, makeEntity(authenticatedUser),
                            TransferType.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
 
@@ -39,12 +41,14 @@ public class TransferTypeService {
         TransferType transferType = null;
 
         try {
-            String url = baseUrl + "transfertype/" + transferTypeId;
+            String url = baseUrl + "transfer_type/" + transferTypeId;
             transferType = restTemplate.exchange(url, HttpMethod.GET,
                            makeEntity(authenticatedUser), TransferType.class).getBody();
         } catch (RestClientResponseException e) {
+            System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
+            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
 

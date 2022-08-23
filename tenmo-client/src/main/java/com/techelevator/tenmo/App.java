@@ -95,7 +95,7 @@ public class App {
 
     // As an authenticated user of the system, I need to be able to see my Account Balance.
     private void viewCurrentBalance() {
-        // TODO Auto-generated method stub
+        // TODO print current valance
         System.out.println("Your current balance: $" + accountService.getBalance(currentUser));
     }
 
@@ -112,7 +112,7 @@ public class App {
     A Sending Transfer has an initial status of Approved.
     */
     private void sendBucks() {
-        // TODO Auto-generated method stub
+        //TODO print user list
         System.out.println("----Here is your user list----");
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
@@ -125,7 +125,7 @@ public class App {
 
     }
 
-    //Validate User ID
+    //TODO Validate User ID
     private boolean isValidUserId(long userId, User[] users) {
         boolean isValidId = false;
         if(userId != 0) {
@@ -147,7 +147,7 @@ public class App {
         return false;
     }
 
-    //make transfer
+    //TODO make transfer
     private Transfer makeTransfer(int accountTo, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
         int transferTypeId = transferTypeService.getTransferTypeByDescription(currentUser, transferType).getTransferTypeId();
@@ -177,7 +177,7 @@ public class App {
 
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
-        // TODO Auto-generated method stub
+        // TODO print transfer history
         System.out.println("----View transfer history----");
         System.out.println("[UserID]    [From/To]   [Amount]");
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
@@ -192,7 +192,7 @@ public class App {
     }
 
 
-    //Validate Transfer ID
+    //TODO Validate Transfer ID
     private Transfer validateTransferId(long transferId, Transfer[] transfers, AuthenticatedUser authenticatedUser) {
         Transfer transferOption = null;
         boolean validTransferId = false;
@@ -248,7 +248,7 @@ public class App {
     The transfer request should appear in both users' list of transfers (use case #5).
     */
     private void requestBucks() {
-        // TODO Auto-generated method stub
+        // TODO print user list
         System.out.println("----Here is your user list----");
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
@@ -266,7 +266,7 @@ public class App {
 
     //As an authenticated user of the system, I need to be able to see my Pending transfers.
     private void viewPendingRequests() {
-        // TODO printing
+        // TODO print pending transfer
         System.out.println("-----View pending transfers-----");
         System.out.println("[UserID]    [From/To]   [Amount]");
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);

@@ -32,7 +32,7 @@ public class TransferService {
         Transfer[] transfer= new Transfer[0];
 
         try {
-            transfer = restTemplate.exchange(baseUrl,
+            transfer = restTemplate.exchange(baseUrl + "transfers",
                        HttpMethod.GET,
                        entity,
                        Transfer[].class).getBody();
@@ -49,7 +49,7 @@ public class TransferService {
     public void makeTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            restTemplate.exchange(baseUrl + "transfertype/" + transfer.getTransferId(),
+            restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
                                  HttpMethod.POST, entity, Transfer.class);
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -61,7 +61,7 @@ public class TransferService {
 
 
 
-    public Transfer[] getTransfersFromUserId(AuthenticatedUser authenticatedUser, int userId) {
+    public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Transfer[] transfers = null;
         try {
             transfers = restTemplate.exchange(baseUrl + "transfers/user/" + userId,
@@ -79,10 +79,10 @@ public class TransferService {
 
 
 
-    public Transfer getTransferFromTransferId(AuthenticatedUser authenticatedUser, int id) {
+    public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int transferId) {
         Transfer transfer = null;
         try {
-            transfer = restTemplate.exchange(baseUrl + "/transfers/" + id,
+            transfer = restTemplate.exchange(baseUrl + "/transfers/" + transferId,
                        HttpMethod.GET,
                        makeEntity(authenticatedUser),
                        Transfer.class).getBody();

@@ -12,7 +12,7 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
     private JdbcTemplate jdbcTemplate;
 
     @Override
-    public TransferType getTransferTypeFromDescription(String description) {
+    public TransferType getTransferTypeByDescription(String description) {
         String sql = "SELECT transfer_type_id, transfer_type_desc " +
                      "FROM transfer_types " +
                      "WHERE transfer_type_desc = ?";
@@ -29,7 +29,7 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
     }
 
     @Override
-    public TransferType getTransferTypeFromId(int transferId) {
+    public TransferType getTransferTypeById(int transferId) {
         String sql = "SELECT transfer_type_id, transfer_type_desc " +
                      "FROM transfer_types " +
                      "WHERE transfer_type_id = ?";

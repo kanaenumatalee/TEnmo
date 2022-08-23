@@ -18,14 +18,14 @@ public class AccountService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public AccountService(String baseUrl) {
-        this.baseUrl = baseUrl;
+        this.baseUrl = baseUrl + "account/";
     }
 
     public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         BigDecimal balance = null;
         try {
-            balance = restTemplate.exchange(baseUrl + "account/balance",
+            balance = restTemplate.exchange(baseUrl + "balance",
                                                 HttpMethod.GET,
                                                 entity,
                                                 BigDecimal.class).getBody();
@@ -42,7 +42,7 @@ public class AccountService {
 
         Account account = null;
         try {
-            account = restTemplate.exchange(baseUrl + "account/user/" + userId,
+            account = restTemplate.exchange(baseUrl + "user/" + userId,
                       HttpMethod.GET,
                       makeEntity(authenticatedUser),
                       Account.class).getBody();
@@ -59,7 +59,7 @@ public class AccountService {
     public Account getAccountById(AuthenticatedUser authenticatedUser, int accountId) {
         Account account = null;
         try {
-            account = restTemplate.exchange(baseUrl + "account/" + accountId,
+            account = restTemplate.exchange(baseUrl + "user/" + accountId,
                       HttpMethod.GET,
                       makeEntity(authenticatedUser),
                       Account.class).getBody();

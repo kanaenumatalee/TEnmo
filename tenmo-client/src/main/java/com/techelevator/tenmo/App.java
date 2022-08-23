@@ -143,18 +143,18 @@ public class App {
                 if (isValidId == false){
                     throw new NoUserFoundException();
                 }
-               return isValidId;
+               return true;
             } catch(InvalidUserException | NoUserFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
-        return isValidId;
+        return false;
     }
 
 
     private Transfer makeTransfer(int accountTo, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
-        int transferTypeId = transferTypeService.getTransferType(currentUser, transferType).getTransferTypeId();
+        int transferTypeId = transferTypeService.getTransferTypeByDescription(currentUser, transferType).getTransferTypeId();
         int transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
         int accountToId;
         int accountFromId;

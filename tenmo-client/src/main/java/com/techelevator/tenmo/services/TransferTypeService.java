@@ -18,7 +18,7 @@ public class TransferTypeService {
         this.baseUrl = baseUrl + "transfer/";
     }
 
-    public TransferType getTransferType(AuthenticatedUser authenticatedUser, String description) {
+    public TransferType getTransferTypeByDescription(AuthenticatedUser authenticatedUser, String description) {
         TransferType transferType = null;
 
         try {
@@ -35,7 +35,7 @@ public class TransferTypeService {
     }
 
 
-    public TransferType getTransferTypeFromId(AuthenticatedUser authenticatedUser, int transferTypeId) {
+    public TransferType getTransferTypeById(AuthenticatedUser authenticatedUser, int transferTypeId) {
         TransferType transferType = null;
 
         try {

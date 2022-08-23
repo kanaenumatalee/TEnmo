@@ -1,5 +1,6 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.exception.InvalidTransferIdException;
 import com.techelevator.exception.NoUserFoundException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
@@ -19,9 +20,8 @@ public class App {
     private final TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
 
 
-
-
     private AuthenticatedUser currentUser;
+
 
     public static void main(String[] args) {
         App app = new App();
@@ -102,8 +102,8 @@ public class App {
 
     /*
     As an authenticated user of the system, I need to be able to send a transfer of a specific amount of TE Bucks to a registered user.
-    I should be able to choose from a list of users to send TE Bucks to.
-    I must not be allowed to send money to myself.
+    [COMPLETE] I should be able to choose from a list of users to send TE Bucks to.
+    [COMPLETE] I must not be allowed to send money to myself.
     A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
     The receiver's account balance is increased by the amount of the transfer.
     The sender's account balance is decreased by the amount of the transfer.
@@ -117,7 +117,7 @@ public class App {
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
-        int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to: ");
+        int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to (0 to cancel): ");
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
             makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
@@ -125,6 +125,7 @@ public class App {
 
     }
 
+    //Validate User ID
     private boolean isValidUserId(long userId, User[] users) {
         boolean isValidId = false;
         if(userId != 0) {
@@ -146,7 +147,7 @@ public class App {
         return false;
     }
 
-
+    //make transfer
     private Transfer makeTransfer(int accountTo, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
         int transferTypeId = transferTypeService.getTransferTypeByDescription(currentUser, transferType).getTransferTypeId();
@@ -177,20 +178,60 @@ public class App {
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
         // TODO Auto-generated method stub
-        System.out.println("-----View transfer history------");
+        System.out.println("----View transfer history----");
+        System.out.println("[UserID]    [From/To]   [Amount]");
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
             System.out.println(transfer);
         }
-
+        int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
+        Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
+        if(transfer != null) {
+            printTransferDetails(currentUser, transfer);
+        }
     }
 
 
-    /*
-    As an authenticated user of the system, I need to be able to retrieve the details of any transfer based upon the transfer ID.
-    */
+    //Validate Transfer ID
+    private Transfer validateTransferId(long transferId, Transfer[] transfers, AuthenticatedUser authenticatedUser) {
+        Transfer transferOption = null;
+        boolean validTransferId = false;
+        if (transferId != 0) {
+            try {
+                for (Transfer transfer : transfers) {
+                    if (transfer.getTransferId() == transferId) {
+                        transferOption = transfer;
+                    }
+                }
+                if (!validTransferId) {
+                    throw new InvalidTransferIdException();
+                }
+            } catch (InvalidTransferIdException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return transferOption;
+    }
 
+    //As an authenticated user of the system, I need to be able to retrieve the details of any transfer based upon the transfer ID.
+    private void printTransferDetails(AuthenticatedUser authenticatedUser, Transfer transfer) {
+        int transferId = transfer.getTransferId();
+        BigDecimal money = transfer.getAmount();
+        int accountFrom = transfer.getAccountFrom();
+        int accountTo = transfer.getAccountTo();
+        int transferTypeId = transfer.getTransferTypeId();
+        int transferStatusId = transfer.getTransferStatusId();
 
+        int fromUserId = accountService.getAccountById(authenticatedUser, accountFrom).getUserId();
+        String fromUserName = userService.getUserByUserId(authenticatedUser, fromUserId).getUsername();
+        int toUserId = accountService.getAccountById(authenticatedUser, accountTo).getUserId();
+        String toUserName = userService.getUserByUserId(authenticatedUser, toUserId).getUsername();
+        String transferType = transferTypeService.getTransferTypeById(authenticatedUser, transferTypeId).getTransferTypeDescription();
+        String transferStatus = transferStatusService.getTransferStatusById(authenticatedUser, transferStatusId).getTransferStatusDesc();
+
+        consoleService.printTransferDetails(transferId, fromUserName, toUserName, transferType, transferStatus, money);
+
+    }
 
 
 
@@ -198,8 +239,8 @@ public class App {
 
     /*
     As an authenticated user of the system, I need to be able to request a transfer of a specific amount of TE Bucks from another registered user.
-    I should be able to choose from a list of users to request TE Bucks from.
-    I must not be allowed to request money from myself.
+    [COMPLETE] I should be able to choose from a list of users to request TE Bucks from.
+    [COMPLETE] I must not be allowed to request money from myself.
     I can't request a zero or negative amount.
     A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
     A Request Transfer has an initial status of Pending.
@@ -213,7 +254,7 @@ public class App {
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
 
-        int userIdInput = consoleService.promptForInt("Please enter UserID you would like to request from: ");
+        int userIdInput = consoleService.promptForInt("Please enter user ID you would like to request from (0 to cancel): ");
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
             makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
@@ -225,21 +266,44 @@ public class App {
 
     //As an authenticated user of the system, I need to be able to see my Pending transfers.
     private void viewPendingRequests() {
-        // TODO Auto-generated method stub
-        System.out.println("-----View pending transfers------");
+        // TODO printing
+        System.out.println("-----View pending transfers-----");
+        System.out.println("[UserID]    [From/To]   [Amount]");
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {
             for (Transfer transfer : transfers) {
-                System.out.println(transfer);
+                printTransfers(currentUser, transfer);
             }
-        }else {
-            System.out.println("This is null");
+            //TODO approve or reject
+            int transferOption = consoleService.promptForInt("Please enter transfer ID to approve/reject (0 to cancel) : ");
+            Transfer transfer = validateTransferId(transferOption, transfers, currentUser);
+            if(transfer != null) {
+                approveOrReject(transfer, currentUser);
+            }
+        } else {
+            System.out.println("No pending transfer to show.");
         }
 
     }
 
 
+    //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
+    private void printTransfers(AuthenticatedUser authenticatedUser, Transfer transfer) {
+        String transferFromOrTo = "";
+        int accountFrom = transfer.getAccountFrom();
+        int accountTo = transfer.getAccountTo();
+        if (accountService.getAccountById(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
+            int accountFromId = accountService.getAccountById(authenticatedUser, accountFrom).getUserId();
+            String userFrom = userService.getUserByUserId(authenticatedUser, accountFromId).getUsername();
+            transferFromOrTo = "From : " + userFrom;
+        } else {
+            int accountToId = accountService.getAccountById(authenticatedUser, accountTo).getUserId();
+            String userTo = userService.getUserByUserId(authenticatedUser, accountToId).getUsername();
+            transferFromOrTo = "To : " + userTo;
+        }
+        consoleService.printTransfers(transfer.getTransferId(), transferFromOrTo, transfer.getAmount());
 
+    }
 
 
     /*
@@ -250,5 +314,24 @@ public class App {
     If the transfer is approved, the requestee's account balance is decreased by the amount of the request.
     If the transfer is rejected, no account balance changes.
     */
+    private void approveOrReject(Transfer transfer, AuthenticatedUser authenticatedUser) {
+        consoleService.printApproveOrRejectChoices();
+        int option = consoleService.promptForInt("Please choose an option");
+        int transferStatusId;
+        if(option != 0) {
+            if(option == 1) {
+                transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Approved").getTransferStatusId();
+                transfer.setTransferStatusId(transferStatusId);
+            } else if(option == 2) {
+                transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Rejected").getTransferStatusId();
+                transfer.setTransferStatusId(transferStatusId);
+            } else {
+                System.out.println("Invalid option.");
+            }
+            transferService.updateTransfer(authenticatedUser, transfer);
+        }
+    }
+
 
 }
+

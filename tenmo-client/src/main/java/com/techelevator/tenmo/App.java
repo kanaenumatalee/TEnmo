@@ -1,6 +1,5 @@
 package com.techelevator.tenmo;
 
-import com.techelevator.exception.InvalidUserException;
 import com.techelevator.exception.NoUserFoundException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
@@ -117,7 +116,7 @@ public class App {
         System.out.println("----Here is your user list----");
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
-        consoleService.printUsers(users);
+        consoleService.printUsers(users, currentUser);
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to: ");
         if(isValidUserId(userIdInput, users, currentUser)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
@@ -130,11 +129,7 @@ public class App {
         boolean isValidId = false;
         if(userId != 0) {
             try {
-
                 for(User user : users) {
-                    if (userId == authenticatedUser.getUser().getId()) {   //user choose themselves = error
-                        throw new InvalidUserException();
-                    }
                     if(userId == user.getId()) {
                         isValidId = true;
                         break;
@@ -144,7 +139,7 @@ public class App {
                     throw new NoUserFoundException();
                 }
                return true;
-            } catch(InvalidUserException | NoUserFoundException e) {
+            } catch(NoUserFoundException e) {
                 System.out.println(e.getMessage());
             }
         }
@@ -216,7 +211,7 @@ public class App {
         System.out.println("----Here is your user list----");
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
-        consoleService.printUsers(users);
+        consoleService.printUsers(users, currentUser);
 
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to request from: ");
         if(isValidUserId(userIdInput, users, currentUser)) {

@@ -22,7 +22,7 @@ public class TransferTypeService {
         TransferType transferType = null;
 
         try {
-            String url = baseUrl + "/transfer_type/filter?description=" + description;
+            String url = baseUrl + "transfer_type/filter?description=" + description;
             transferType = restTemplate.exchange(url, HttpMethod.GET, makeEntity(authenticatedUser),
                            TransferType.class).getBody();
         } catch (RestClientResponseException e) {

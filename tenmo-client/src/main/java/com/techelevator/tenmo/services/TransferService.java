@@ -69,7 +69,7 @@ public class TransferService {
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(baseUrl + "transfers/user/" + userId,
+            transfers = restTemplate.exchange(baseUrl + "transfers/users/" + userId,
                         HttpMethod.GET,
                         makeEntity(authenticatedUser),
                         Transfer[].class).getBody();
@@ -129,7 +129,7 @@ public class TransferService {
     public Transfer[] getPendingTransfersByUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         try {
-            transfers = restTemplate.exchange(baseUrl + "/transfers/user/" +
+            transfers = restTemplate.exchange(baseUrl + "/transfers/users/" +
                         authenticatedUser.getUser().getId() + "/pending",
                         HttpMethod.GET,
                         makeEntity(authenticatedUser),

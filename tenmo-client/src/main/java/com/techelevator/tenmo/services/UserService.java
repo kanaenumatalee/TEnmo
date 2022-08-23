@@ -15,13 +15,13 @@ public class UserService {
     private RestTemplate restTemplate = new RestTemplate();
 
     public UserService(String url) {
-        this.baseUrl = url;
+        this.baseUrl = url + "account/";
     }
 
     public User[] getAllUsers(AuthenticatedUser authenticatedUser) {
         User[] users = null;
         try {
-            users = restTemplate.exchange(baseUrl + "account/users",
+            users = restTemplate.exchange(baseUrl + "users",
                     HttpMethod.GET, makeEntity(authenticatedUser), User[].class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());

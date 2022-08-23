@@ -35,13 +35,13 @@ public class AccountController {
 
 
     // findIdByAccountId
-    @RequestMapping(value = "account/user/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "account/users/{id}", method = RequestMethod.GET)
     public int findIdByAccountId(@PathVariable int userId){
         return accountDao.findIdByAccountId(userId);
     }
 
     // getAccountByUserId
-    @RequestMapping(value = "account/user/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "account/users/{userId}", method = RequestMethod.GET)
     public Account getAccountByUserId(@PathVariable int userId){
         return accountDao.getAccountByUserId(userId);
     }
@@ -49,13 +49,13 @@ public class AccountController {
 
 
     // getAccountByAccountId
-    @RequestMapping(value = "account/user/{accountId}",method = RequestMethod.GET)
+    @RequestMapping(value = "account/users/{accountId}",method = RequestMethod.GET)
     public Account getAccountByAccountId(@PathVariable int accountId){
         return accountDao.getAccountByAccountId(accountId);
     }
 
     // updateAccount
-    @RequestMapping(value ="account/user/{id}",method = RequestMethod.PUT)
+    @RequestMapping(value ="account/users/{id}",method = RequestMethod.PUT)
     public void updateAccount(@RequestBody Account account, @PathVariable int accountId){
         accountDao.updateAccount(account);
     }

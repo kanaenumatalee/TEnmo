@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
 
@@ -90,10 +91,13 @@ public class ConsoleService {
     }
 
 
-    public void printUsers(User[] users) {
+    public void printUsers(User[] users, AuthenticatedUser authenticatedUser) {
         for(User user: users) {
-            System.out.println("      " + user.getId() + "        " + user.getUsername());
+            if(!user.getUsername().equals(authenticatedUser.getUser().getUsername())) {
+                System.out.println("      " + user.getId() + "        " + user.getUsername());
+            }
         }
+
         System.out.flush();
     }
 }

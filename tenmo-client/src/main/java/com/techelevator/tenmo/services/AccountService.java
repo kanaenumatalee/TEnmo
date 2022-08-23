@@ -58,10 +58,10 @@ public class AccountService {
     }
 
 
-    public Account getAccountById(AuthenticatedUser authenticatedUser, int accountId) {
+    public Account getAccountByAccountId(AuthenticatedUser authenticatedUser, int accountId) {
         Account account = null;
         try {
-            account = restTemplate.exchange(baseUrl + "users/" + accountId,
+            account = restTemplate.exchange(baseUrl + accountId,
                       HttpMethod.GET,
                       makeEntity(authenticatedUser),
                       Account.class).getBody();

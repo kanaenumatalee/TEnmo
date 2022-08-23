@@ -75,12 +75,12 @@ public class TransferController {
 
 
     //TransferStatusDao
-    @RequestMapping(path="/transfer_status/{description}", method = RequestMethod.GET)
+    @RequestMapping(path="transfer_status/{description}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusByDescription(@RequestParam String description) {
         return transferStatusDAO.getTransferStatusByDesc(description);
     }
 
-    @RequestMapping(path="/transfer_status/{id}", method = RequestMethod.GET)
+    @RequestMapping(path="transfer_status/{id}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusById(@PathVariable int id) {
         return transferStatusDAO.getTransferStatusById(id);
     }
@@ -88,13 +88,13 @@ public class TransferController {
 
 
     //transferTypeDao
-    @RequestMapping(path="/transfer_type/{description}", method = RequestMethod.GET)
+    @RequestMapping(path="transfer_type/{description}", method = RequestMethod.GET)
     public TransferType getTransferTypeByDescription(@RequestParam String description) {
         return transferTypeDao.getTransferTypeByDescription(description);
     }
 
 
-    @RequestMapping(path="/transfer_type/{id}", method = RequestMethod.GET)
+    @RequestMapping(path="transfer_type/{id}", method = RequestMethod.GET)
     public TransferType getTransferTypeById(@PathVariable int id)  {
         return transferTypeDao.getTransferTypeById(id);
     }

@@ -222,9 +222,9 @@ public class App {
         int transferTypeId = transfer.getTransferTypeId();
         int transferStatusId = transfer.getTransferStatusId();
 
-        int fromUserId = accountService.getAccountById(authenticatedUser, accountFrom).getUserId();
+        int fromUserId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
         String fromUserName = userService.getUserByUserId(authenticatedUser, fromUserId).getUsername();
-        int toUserId = accountService.getAccountById(authenticatedUser, accountTo).getUserId();
+        int toUserId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
         String toUserName = userService.getUserByUserId(authenticatedUser, toUserId).getUsername();
         String transferType = transferTypeService.getTransferTypeById(authenticatedUser, transferTypeId).getTransferTypeDescription();
         String transferStatus = transferStatusService.getTransferStatusById(authenticatedUser, transferStatusId).getTransferStatusDesc();
@@ -292,12 +292,12 @@ public class App {
         String transferFromOrTo = "";
         int accountFrom = transfer.getAccountFrom();
         int accountTo = transfer.getAccountTo();
-        if (accountService.getAccountById(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
-            int accountFromId = accountService.getAccountById(authenticatedUser, accountFrom).getUserId();
+        if (accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
+            int accountFromId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
             String userFrom = userService.getUserByUserId(authenticatedUser, accountFromId).getUsername();
             transferFromOrTo = "From : " + userFrom;
         } else {
-            int accountToId = accountService.getAccountById(authenticatedUser, accountTo).getUserId();
+            int accountToId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
             String userTo = userService.getUserByUserId(authenticatedUser, accountToId).getUsername();
             transferFromOrTo = "To : " + userTo;
         }

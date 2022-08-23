@@ -34,14 +34,14 @@ public class AccountController {
     }
 
 
-    // findIdByAccountId
-    @RequestMapping(value = "users/{id}", method = RequestMethod.GET)
-    public int findIdByAccountId(@PathVariable int userId){
-        return accountDao.findIdByAccountId(userId);
-    }
+    /* findIdByAccountId
+    @RequestMapping(value = "users/{accountId}", method = RequestMethod.GET)
+    public int findIdByAccountId(@PathVariable int accountId){
+        return accountDao.findIdByAccountId(accountId);
+    }*/
 
     // getAccountByUserId
-    @RequestMapping(value = "users/{userId}", method = RequestMethod.GET)
+    @RequestMapping(value = "{userId}", method = RequestMethod.GET)
     public Account getAccountByUserId(@PathVariable int userId){
         return accountDao.getAccountByUserId(userId);
     }

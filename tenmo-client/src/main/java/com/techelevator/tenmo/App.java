@@ -130,16 +130,20 @@ public class App {
         boolean isValidId = false;
         if(userId != 0) {
             try {
+
                 for(User user : users) {
                     if (userId == authenticatedUser.getUser().getId()) {   //user choose themselves = error
                         throw new InvalidUserException();
-                    } else if(user.getId() == userId) {
+                    }
+                    if(userId == user.getId()) {
                         isValidId = true;
                         break;
-                    } else {
-                        throw new NoUserFoundException();
                     }
                 }
+                if (isValidId == false){
+                    throw new NoUserFoundException();
+                }
+               return isValidId;
             } catch(InvalidUserException | NoUserFoundException e) {
                 System.out.println(e.getMessage());
             }
@@ -213,6 +217,7 @@ public class App {
         System.out.println("    [UserID]    [Username]");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users);
+
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to request from: ");
         if(isValidUserId(userIdInput, users, currentUser)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
@@ -228,8 +233,12 @@ public class App {
         // TODO Auto-generated method stub
         System.out.println("-----View pending transfers------");
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
-        for(Transfer transfer: transfers) {
-            System.out.println(transfer);
+        if (transfers != null) {
+            for (Transfer transfer : transfers) {
+                System.out.println(transfer);
+            }
+        }else {
+            System.out.println("This is null");
         }
 
     }

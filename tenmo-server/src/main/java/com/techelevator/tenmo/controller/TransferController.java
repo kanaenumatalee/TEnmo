@@ -30,7 +30,7 @@ public class TransferController {
     AccountDao accountDao;
 
     // makeTransfer
-    @RequestMapping(path = "transfertype/{id}", method = RequestMethod.POST)
+    @RequestMapping(path = "transfer_type/{id}", method = RequestMethod.POST)
     public void makeTransfer(@RequestBody Transfer transfer, @PathVariable long id) throws InsufficientBalanceException {
 
         BigDecimal transferAmount = transfer.getAmount();
@@ -45,12 +45,12 @@ public class TransferController {
         transferDao.makeTransfer(transfer);
     }
 
-    @RequestMapping(path = "getTransfersByUserId/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "getTransfersByUserId/{userId}", method = RequestMethod.GET)
     public List<Transfer> getTransfersByUserId(@PathVariable int userId){
         return transferDao.getTransfersByUserId(userId);
     }
 
-    @RequestMapping(path = "getTransferByTransferId/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "getTransferByTransferId/{transferId}", method = RequestMethod.GET)
     public Transfer getTransferByTransferId(@PathVariable int transferId){
         return transferDao.getTransferByTransferId(transferId);
     }
@@ -67,7 +67,7 @@ public class TransferController {
 
 
     // getPendingTransfers
-    @RequestMapping(path = "getPendingTransfers/{id}", method = RequestMethod.GET)
+    @RequestMapping(path = "getPendingTransfers/{userId}", method = RequestMethod.GET)
     public List<Transfer> getPendingTransfers(@PathVariable int userId ){
         return transferDao.getPendingTransfers(userId);
     }
@@ -75,12 +75,12 @@ public class TransferController {
 
 
     //TransferStatusDao
-    @RequestMapping(path="/transferstatus/{description}", method = RequestMethod.GET)
+    @RequestMapping(path="/transfer_status/{description}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusByDescription(@RequestParam String description) {
         return transferStatusDAO.getTransferStatusByDesc(description);
     }
 
-    @RequestMapping(path="/transferstatus/{id}", method = RequestMethod.GET)
+    @RequestMapping(path="/transfer_status/{id}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusFromId(@PathVariable int id) {
         return transferStatusDAO.getTransferStatusById(id);
     }
@@ -88,13 +88,13 @@ public class TransferController {
 
 
     //transferTypeDao
-    @RequestMapping(path="/transfertype/{description}", method = RequestMethod.GET)
+    @RequestMapping(path="/transfer_type/{description}", method = RequestMethod.GET)
     public TransferType getTransferTypeFromDescription(@RequestParam String description) {
         return transferTypeDao.getTransferTypeFromDescription(description);
     }
 
 
-    @RequestMapping(path="/transfertype/{id}", method = RequestMethod.GET)
+    @RequestMapping(path="/transfer_type/{id}", method = RequestMethod.GET)
     public TransferType getTransferDescFromId(@PathVariable int id)  {
         return transferTypeDao.getTransferTypeFromId(id);
     }

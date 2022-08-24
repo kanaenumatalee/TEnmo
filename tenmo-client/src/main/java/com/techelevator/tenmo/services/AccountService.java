@@ -46,7 +46,7 @@ public class AccountService {
         HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
-            account = restTemplate.exchange(baseUrl + "users/" + userId,
+            account = restTemplate.exchange(baseUrl + userId,
                                             HttpMethod.GET,
                                             entity,
                                             Account.class).getBody();
@@ -65,7 +65,7 @@ public class AccountService {
         HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
-            account = restTemplate.exchange(baseUrl + accountId,
+            account = restTemplate.exchange(baseUrl + "users/" + accountId,
                                             HttpMethod.GET,
                                             entity,
                                             Account.class).getBody();

@@ -23,7 +23,7 @@ public class TransferStatusService {
         TransferStatus transferStatus = null;
         HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            String url = baseUrl + "transfer_status/desc" + description;
+            String url = baseUrl + "transfer_status/desc/" + description;
             transferStatus = restTemplate.exchange(url,
                                                    HttpMethod.GET,
                                                    entity,

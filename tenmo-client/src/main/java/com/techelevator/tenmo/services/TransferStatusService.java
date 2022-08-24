@@ -21,7 +21,7 @@ public class TransferStatusService {
     public TransferStatus getTransferStatus(AuthenticatedUser authenticatedUser, String description) {
         TransferStatus transferStatus = null;
         try {
-            String url = baseUrl + "transfer_status/" + description;
+            String url = baseUrl + "transfer_status/desc" + description;
             transferStatus = restTemplate.exchange(url, HttpMethod.GET,
                              makeEntity(authenticatedUser), TransferStatus.class).getBody();
         } catch (RestClientResponseException e) {

@@ -22,8 +22,9 @@ public class AccountService {
     }
 
     public BigDecimal getBalance(AuthenticatedUser authenticatedUser) {
-        HttpEntity entity = makeEntity(authenticatedUser);
         BigDecimal balance = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
             balance = restTemplate.exchange(baseUrl + "balance",
                                                 HttpMethod.GET,
@@ -41,13 +42,14 @@ public class AccountService {
 
 
     public Account getAccountByUserId(AuthenticatedUser authenticatedUser, int userId) {
-
         Account account = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
             account = restTemplate.exchange(baseUrl + "users/" + userId,
-                      HttpMethod.GET,
-                      makeEntity(authenticatedUser),
-                      Account.class).getBody();
+                                            HttpMethod.GET,
+                                            entity,
+                                            Account.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
         } catch (ResourceAccessException e) {
@@ -60,11 +62,13 @@ public class AccountService {
 
     public Account getAccountByAccountId(AuthenticatedUser authenticatedUser, int accountId) {
         Account account = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
             account = restTemplate.exchange(baseUrl + accountId,
-                      HttpMethod.GET,
-                      makeEntity(authenticatedUser),
-                      Account.class).getBody();
+                                            HttpMethod.GET,
+                                            entity,
+                                            Account.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
         } catch (ResourceAccessException e) {

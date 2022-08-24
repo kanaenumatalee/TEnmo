@@ -25,16 +25,15 @@ public class TransferService {
     }
 
 
-
     public Transfer[] viewTransferHistory(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         Transfer[] transfer= new Transfer[0];
 
         try {
             transfer = restTemplate.exchange(baseUrl,
-                       HttpMethod.GET,
-                       entity,
-                       Transfer[].class).getBody();
+                                             HttpMethod.GET,
+                                             entity,
+                                             Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
@@ -48,8 +47,11 @@ public class TransferService {
     public void makeTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            restTemplate.exchange(baseUrl + "users/" + transfer.getTransferId(),
-                                 HttpMethod.POST, entity, Transfer.class);
+            restTemplate.exchange(baseUrl + "users/" +
+                                  transfer.getTransferId(),
+                                  HttpMethod.POST,
+                                  entity,
+                                  Transfer.class);
         } catch (RestClientResponseException e) {
             if(e.getMessage().equals("Not enough balance in your account.")) {
                 System.out.println("You do not have enough balance for your transaction.");
@@ -68,11 +70,14 @@ public class TransferService {
 
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Transfer[] transfers = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
-            transfers = restTemplate.exchange(baseUrl + "users/" + userId,
-                        HttpMethod.GET,
-                        makeEntity(authenticatedUser),
-                        Transfer[].class).getBody();
+            transfers = restTemplate.exchange(baseUrl + "users/" +
+                                              userId,
+                                              HttpMethod.GET,
+                                              entity,
+                                              Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -88,11 +93,13 @@ public class TransferService {
 
     public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int transferId) {
         Transfer transfer = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
             transfer = restTemplate.exchange(baseUrl + transferId,
-                       HttpMethod.GET,
-                       makeEntity(authenticatedUser),
-                       Transfer.class).getBody();
+                                             HttpMethod.GET,
+                                             entity,
+                                             Transfer.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -108,12 +115,13 @@ public class TransferService {
 
     public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = new Transfer[0];
+        HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
             transfers = restTemplate.exchange(baseUrl,
-                        HttpMethod.GET,
-                        makeEntity(authenticatedUser),
-                        Transfer[].class).getBody();
+                                              HttpMethod.GET,
+                                              entity,
+                                              Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -128,12 +136,14 @@ public class TransferService {
 
     public Transfer[] getPendingTransfersByUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
+
         try {
             transfers = restTemplate.exchange(baseUrl + "users/" +
-                        authenticatedUser.getUser().getId() + "/pending",
-                        HttpMethod.GET,
-                        makeEntity(authenticatedUser),
-                        Transfer[].class).getBody();
+                                              authenticatedUser.getUser().getId() + "/pending",
+                                              HttpMethod.GET,
+                                              entity,
+                                              Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -148,9 +158,13 @@ public class TransferService {
 
     public void updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity<Transfer> entity = new HttpEntity(transfer);
+
         try {
-            restTemplate.exchange(baseUrl + transfer.getTransferId(),
-                                  HttpMethod.PUT, entity, Transfer.class);
+            restTemplate.exchange(baseUrl +
+                                  transfer.getTransferId(),
+                                  HttpMethod.PUT,
+                                  entity,
+                                  Transfer.class);
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());

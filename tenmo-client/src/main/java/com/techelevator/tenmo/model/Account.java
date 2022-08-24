@@ -1,7 +1,7 @@
 package com.techelevator.tenmo.model;
 
 import java.math.BigDecimal;
-//*kanae/jaron
+
 public class Account {
     private int userId;
 

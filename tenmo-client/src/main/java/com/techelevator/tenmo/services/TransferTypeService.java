@@ -25,7 +25,10 @@ public class TransferTypeService {
 
         try {
             String url = baseUrl + "transfer_type/desc/" + description;
-            transferType = restTemplate.exchange(url, HttpMethod.GET, entity, TransferType.class).getBody();
+            transferType = restTemplate.exchange(url,
+                                                 HttpMethod.GET,
+                                                 entity,
+                                                 TransferType.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -40,11 +43,14 @@ public class TransferTypeService {
 
     public TransferType getTransferTypeById(AuthenticatedUser authenticatedUser, int transferTypeId) {
         TransferType transferType = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
             String url = baseUrl + "transfer_type/" + transferTypeId;
-            transferType = restTemplate.exchange(url, HttpMethod.GET,
-                           makeEntity(authenticatedUser), TransferType.class).getBody();
+            transferType = restTemplate.exchange(url,
+                                                 HttpMethod.GET,
+                                                 entity,
+                                                 TransferType.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());

@@ -15,8 +15,6 @@ public class JdbcTransferDao implements TransferDao {
     private JdbcTemplate jdbcTemplate;
 
 
-
-
     @Override
     public void makeTransfer(Transfer transfer) {
         String sql = "INSERT INTO transfer(transfer_id, transfer_type_id, transfer_status_id, " +

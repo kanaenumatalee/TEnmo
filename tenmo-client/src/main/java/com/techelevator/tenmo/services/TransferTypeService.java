@@ -6,6 +6,7 @@ import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -20,11 +21,11 @@ public class TransferTypeService {
 
     public TransferType getTransferTypeByDescription(AuthenticatedUser authenticatedUser, String description) {
         TransferType transferType = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
             String url = baseUrl + "transfer_type/" + description;
-            transferType = restTemplate.exchange(url, HttpMethod.GET, makeEntity(authenticatedUser),
-                           TransferType.class).getBody();
+            transferType = restTemplate.exchange(url, HttpMethod.GET, entity, TransferType.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -60,6 +61,7 @@ public class TransferTypeService {
 
         private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
         HttpEntity entity = new HttpEntity(headers);
         return entity;

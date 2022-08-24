@@ -24,7 +24,7 @@ public class TransferTypeService {
         HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
-            String url = baseUrl + "transfer_type/" + description;
+            String url = baseUrl + "transfer_type/desc/" + description;
             transferType = restTemplate.exchange(url, HttpMethod.GET, entity, TransferType.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());

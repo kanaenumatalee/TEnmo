@@ -88,8 +88,8 @@ public class TransferController {
 
 
     //transferTypeDao
-    @RequestMapping(path="transfer_type/{description}", method = RequestMethod.GET)
-    public TransferType getTransferTypeByDescription(@RequestParam String description) {
+    @RequestMapping(path="transfer_type/desc/{description}", method = RequestMethod.GET)
+    public TransferType getTransferTypeByDescription(@PathVariable String description) {
         return transferTypeDao.getTransferTypeByDescription(description);
     }
 

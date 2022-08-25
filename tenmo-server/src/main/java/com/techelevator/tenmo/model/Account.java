@@ -19,19 +19,19 @@ public class Account {
         this.balance = balance;
     }
 
-    public int getAccount_id() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccount_id(int account_id) {
+    public void setAccountId(int account_id) {
         this.accountId = account_id;
     }
 
-    public int getUser_id() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUser_id(int user_id) {
+    public void setUserId(int user_id) {
         this.userId = user_id;
     }
 

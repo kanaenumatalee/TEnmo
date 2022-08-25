@@ -74,13 +74,13 @@ public class JdbcAccountDao implements AccountDao {
                      "SET balance = ? " +
                      "WHERE account_id = ?";
 
-        jdbcTemplate.update(sql, account.getBalance(), account.getAccount_id());
+        jdbcTemplate.update(sql, account.getBalance(), account.getAccountId());
     }
 
     private Account mapResultsToAccount(SqlRowSet result) {
         Account account = new Account();
-        account.setUser_id(result.getInt("user_id"));
-        account.setAccount_id(result.getInt("account_id"));
+        account.setUserId(result.getInt("user_id"));
+        account.setAccountId(result.getInt("account_id"));
         account.setBalance(result.getBigDecimal("balance"));
         return account;
     }

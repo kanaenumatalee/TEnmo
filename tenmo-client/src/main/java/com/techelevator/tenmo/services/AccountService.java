@@ -46,10 +46,11 @@ public class AccountService {
         HttpEntity entity = makeEntity(authenticatedUser);
 
         try {
-            account = restTemplate.exchange(baseUrl + userId,
+            ResponseEntity<Account> response = restTemplate.exchange(baseUrl + userId,
                                             HttpMethod.GET,
                                             entity,
-                                            Account.class).getBody();
+                                            Account.class);
+            account = response.getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
         } catch (ResourceAccessException e) {

@@ -6,6 +6,7 @@ import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
@@ -35,9 +36,12 @@ public class UserService {
 
     public User getUserByUserId(AuthenticatedUser authenticatedUser, long id) {
         User user = null;
+        HttpEntity entity = makeEntity(authenticatedUser);
         try {
-            user = restTemplate.exchange(baseUrl + "users/" + id, HttpMethod.GET,
-                   makeEntity(authenticatedUser), User.class).getBody();
+            user = restTemplate.exchange(baseUrl + "users/user/" + id,
+                                         HttpMethod.GET,
+                                         entity,
+                                         User.class).getBody();
         } catch (RestClientResponseException e) {
             System.out.println("Failed to complete request. Code: " + e.getRawStatusCode());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
@@ -53,6 +57,7 @@ public class UserService {
 
     private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
         headers.setBearerAuth(authenticatedUser.getToken());
         HttpEntity entity = new HttpEntity(headers);
         return entity;

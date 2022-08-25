@@ -182,7 +182,7 @@ public class App {
         System.out.println("[UserID]    [From/To]   [Amount]");
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
-            System.out.println(transfer);
+            printTransfers(currentUser, transfer);
         }
         int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
         Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);

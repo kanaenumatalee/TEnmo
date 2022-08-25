@@ -70,7 +70,7 @@ public class JdbcAccountDao implements AccountDao {
 
     @Override
     public void updateAccount(Account account) {
-        String sql = "UPDATE accounts " +
+        String sql = "UPDATE account " +
                      "SET balance = ? " +
                      "WHERE account_id = ?";
 
@@ -78,11 +78,11 @@ public class JdbcAccountDao implements AccountDao {
     }
 
     private Account mapResultsToAccount(SqlRowSet result) {
-        int accountId = result.getInt("account_id");
-        int userAccountId = result.getInt("user_id");
         Account account = new Account();
-        BigDecimal balance = result.getBigDecimal("balance");
-        return new Account(accountId, userAccountId, balance);
+        account.setUser_id(result.getInt("user_id"));
+        account.setAccount_id(result.getInt("account_id"));
+        account.setBalance(result.getBigDecimal("balance"));
+        return account;
     }
 
 

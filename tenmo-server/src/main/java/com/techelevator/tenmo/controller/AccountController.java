@@ -33,6 +33,10 @@ public class AccountController {
         return userDao.findAll();
     }
 
+    @RequestMapping(path="/users/user/{id}", method = RequestMethod.GET)
+    public User getUserByUserId(@PathVariable long id) {
+        return userDao.getUserByUserId(id);
+    }
 
     /* findIdByAccountId
     @RequestMapping(value = "users/{accountId}", method = RequestMethod.GET)

@@ -7,6 +7,7 @@ import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.model.TransferStatus;
 import com.techelevator.tenmo.model.TransferType;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class TransferController {
     AccountDao accountDao;
 
     // makeTransfer
+    @ResponseStatus(HttpStatus.CREATED)
     @RequestMapping(path = "users/{id}", method = RequestMethod.POST)
     public void makeTransfer(@RequestBody Transfer transfer, @PathVariable long id) throws InsufficientBalanceException {
 

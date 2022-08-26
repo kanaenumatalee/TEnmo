@@ -1,6 +1,7 @@
 package com.techelevator.tenmo.services;
 
 
+import com.techelevator.exception.NegativeValueException;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
@@ -69,6 +70,7 @@ public class ConsoleService {
             }
         }
     }
+
 
     public BigDecimal promptForBigDecimal(String prompt) {
         System.out.print(prompt);

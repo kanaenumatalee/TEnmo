@@ -44,9 +44,9 @@ public class JdbcTransferTypeDao implements TransferTypeDao {
         TransferType transferType = null;
 
         if(result.next()) {
-            int transferType_Id = result.getInt("transfer_type_id");
+            int transferTypeId2 = result.getInt("transfer_type_id");
             String transferTypeDesc = result.getString("transfer_type_desc");
-            transferType = new TransferType(transferType_Id, transferTypeDesc);
+            transferType = new TransferType(transferTypeId2, transferTypeDesc);
         }
         return transferType;
     }

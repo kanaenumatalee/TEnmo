@@ -1,7 +1,9 @@
 package com.techelevator.tenmo;
 
 import com.techelevator.exception.InvalidTransferIdException;
+import com.techelevator.exception.NegativeValueException;
 import com.techelevator.exception.NoUserFoundException;
+import com.techelevator.exception.NotEnoughBalanceException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
 
@@ -23,12 +25,12 @@ public class App {
     private AuthenticatedUser currentUser;
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NegativeValueException {
         App app = new App();
         app.run();
     }
 
-    private void run() {
+    private void run() throws NegativeValueException {
         consoleService.printGreeting();
         loginMenu();
         if (currentUser != null) {
@@ -95,7 +97,7 @@ public class App {
 
     // As an authenticated user of the system, I need to be able to see my Account Balance.
     private void viewCurrentBalance() {
-        // TODO print current valance
+        // TODO print current balance
         System.out.println("Your current balance: $" + accountService.getBalance(currentUser));
     }
 
@@ -107,9 +109,9 @@ public class App {
     [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
     [COMPLETE] The receiver's account balance is increased by the amount of the transfer.
     [COMPLETE]  The sender's account balance is decreased by the amount of the transfer.
-    I can't send more TE Bucks than I have in my account.
-    I can't send a zero or negative amount.
-    A Sending Transfer has an initial status of Approved.
+    [COMPLETE] I can't send more TE Bucks than I have in my account.
+    [COMPLETE] I can't send a zero or negative amount.
+    [COMPLETE] A Sending Transfer has an initial status of Approved.
     */
     private void sendBucks() {
         //TODO print user list
@@ -123,7 +125,19 @@ public class App {
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to (0 to cancel): ");
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
-            makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
+            BigDecimal balance = accountService.getBalance(currentUser);
+            BigDecimal userAmount = BigDecimal.valueOf(userAmountInput);
+            try {
+                if (userAmountInput <= 0) {
+                    throw new NegativeValueException();
+                } else if (userAmount.compareTo(balance) >= 0) {
+                    throw new NotEnoughBalanceException();
+                } else {
+                    makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
+                }
+            } catch (NegativeValueException | NotEnoughBalanceException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
@@ -162,8 +176,8 @@ public class App {
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
             transactionStatus = "Transaction complete!";
         } else {
-            accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
+            accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             transactionStatus = "Request complete!";
         }
 
@@ -271,10 +285,16 @@ public class App {
         int userIdInput = consoleService.promptForInt("Please enter user ID you would like to request from (0 to cancel): ");
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
-            makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
+            try {
+                if (userAmountInput <= 0) {
+                    throw new NegativeValueException();
+                } else {
+                    makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
+                }
+            } catch (NegativeValueException e) {
+                System.out.println(e.getMessage());
+            }
         }
-
-
     }
 
 
@@ -285,7 +305,7 @@ public class App {
         System.out.println("--------------------------------------------------");
         System.out.println("Pending Requests");
         System.out.println("--------------------------------------------------");
-        System.out.printf("%-15s %-15s %-15s","[TransferID]","[From/To]","[Amount]");
+        System.out.printf("%-15s %-15s %-15s","[TransferID]","[To]","[Amount]");
         System.out.println();
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {

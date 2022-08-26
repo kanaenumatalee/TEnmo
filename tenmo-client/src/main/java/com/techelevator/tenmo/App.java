@@ -180,7 +180,7 @@ public class App {
     private void viewTransferHistory() {
         // TODO print transfer history
         System.out.println("-------View transfer history-------");
-        System.out.println("[UserID]    [From/To]     [Amount]");
+        System.out.println("[TransferID]    [From/To]     [Amount]");
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
             printTransfers(currentUser, transfer);

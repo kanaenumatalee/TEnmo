@@ -155,11 +155,10 @@ public class TransferService {
 
 
     public void updateTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
-        HttpEntity<Transfer> entity = new HttpEntity(transfer);
+        HttpEntity<Transfer> entity =  transferEntity(authenticatedUser, transfer);
 
         try {
-            restTemplate.exchange(baseUrl +
-                                  transfer.getTransferId(),
+            restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
                                   HttpMethod.PUT,
                                   entity,
                                   Transfer.class);

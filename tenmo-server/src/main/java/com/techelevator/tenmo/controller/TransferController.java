@@ -104,5 +104,26 @@ public class TransferController {
         return transferTypeDao.getTransferTypeById(transferTypeId);
     }
 
+    @RequestMapping(path="transfers/{id}", method = RequestMethod.PUT)
+    public void updateTransferStatus(@RequestBody Transfer transfer, @PathVariable int id) throws InsufficientBalanceException {
 
+        // only go through with the transfer if approved
+        if(transfer.getTransferStatusId() == transferStatusDAO.getTransferStatusByDesc("Approved").getTransferStatusId()) {
+
+            BigDecimal amountToTransfer = transfer.getAmount();
+            Account accountFrom = accountDao.getAccountByAccountId(transfer.getAccountFrom());
+            Account accountTo = accountDao.getAccountByAccountId(transfer.getAccountTo());
+
+            accountFrom.sendMoney(amountToTransfer);
+            accountTo.getMoney(amountToTransfer);
+
+            transferDao.updateTransfer(transfer);
+
+            accountDao.updateAccount(accountFrom);
+            accountDao.updateAccount(accountTo);
+        } else {
+            transferDao.updateTransfer(transfer);
+        }
+
+    }
 }

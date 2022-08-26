@@ -156,14 +156,15 @@ public class App {
         int transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
         int accountToId;
         int accountFromId;
+        String transactionStatus = "";
         if(transferType.equals("Send")) {
             accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
-            System.out.println("Transaction complete!");
+            transactionStatus = "Transaction complete!";
         } else {
             accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
-            System.out.println("Request complete!");
+            transactionStatus = "Request complete!";
         }
 
         if (accountFromId != accountToId) {
@@ -174,10 +175,9 @@ public class App {
             transfer.setTransferTypeId(transferTypeId);
             transferService.makeTransfer(currentUser, transfer);
         } else {
-            System.out.println("You cannot make a transaction to yourself.");
-            System.out.println("Transaction cancelled.");
+            transactionStatus = "You cannot make a transaction to yourself.\nTransaction cancelled.";
         }
-
+        System.out.println(transactionStatus);
         return transfer;
     }
 

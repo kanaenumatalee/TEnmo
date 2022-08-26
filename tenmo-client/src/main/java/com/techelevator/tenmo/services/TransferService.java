@@ -55,8 +55,6 @@ public class TransferService {
         } catch (RestClientResponseException e) {
             if(e.getMessage().equals("Not enough balance in your account.")) {
                 System.out.println("You do not have enough balance for your transaction.");
-            } else {
-                System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             }
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {

@@ -159,9 +159,11 @@ public class App {
         if(transferType.equals("Send")) {
             accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
+            System.out.println("Transaction complete!");
         } else {
             accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
+            System.out.println("Request complete!");
         }
 
         if (accountFromId != accountToId) {
@@ -171,7 +173,6 @@ public class App {
             transfer.setTransferStatusId(transferStatusId);
             transfer.setTransferTypeId(transferTypeId);
             transferService.makeTransfer(currentUser, transfer);
-            System.out.println("Transaction complete!");
         } else {
             System.out.println("You cannot make a transaction to yourself.");
             System.out.println("Transaction cancelled.");
@@ -272,7 +273,7 @@ public class App {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
             makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
         }
-        System.out.println("Request complete!");
+
 
     }
 
@@ -333,7 +334,7 @@ public class App {
     */
     private void approveOrReject(Transfer transfer, AuthenticatedUser authenticatedUser) {
         consoleService.printApproveOrRejectChoices();
-        int option = consoleService.promptForInt("Please choose an option");
+        int option = consoleService.promptForInt("Please choose an option: ");
         int transferStatusId;
         if(option != 0) {
             if(option == 1) {

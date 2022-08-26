@@ -188,7 +188,7 @@ public class App {
         System.out.println("--------------------------------------------------");
         System.out.println("Transfer History");
         System.out.println("--------------------------------------------------");
-        System.out.printf("%-15s %-15s %-15s","[UserID]","[From/To]","[Amount]");
+        System.out.printf("%-15s %-15s %-15s","[TransferID]","[From/To]","[Amount]");
         System.out.println();
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
@@ -284,7 +284,7 @@ public class App {
         System.out.println("--------------------------------------------------");
         System.out.println("Pending Requests");
         System.out.println("--------------------------------------------------");
-        System.out.printf("%-15s %-15s %-15s","[UserID]","[From/To]","[Amount]");
+        System.out.printf("%-15s %-15s %-15s","[TransferID]","[From/To]","[Amount]");
         System.out.println();
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {

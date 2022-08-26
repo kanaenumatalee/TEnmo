@@ -6,10 +6,16 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 @Component
 public class JdbcTransferTypeDao implements TransferTypeDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public JdbcTransferTypeDao(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
+
+
 
     @Override
     public TransferType getTransferTypeByDescription(String description) {

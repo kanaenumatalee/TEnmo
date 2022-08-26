@@ -6,10 +6,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
+
 @Component
 public class JdbcTransferStatusDao implements TransferStatusDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public JdbcTransferStatusDao(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
 
     @Override
     public TransferStatus getTransferStatusByDesc(String description) {

@@ -123,6 +123,7 @@ public class App {
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to (0 to cancel): ");
+        // validate userId and input value amount
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
             BigDecimal balance = accountService.getBalance(currentUser);
@@ -171,6 +172,7 @@ public class App {
         int accountToId;
         int accountFromId;
         String transactionStatus = "";
+        // Assign accountToId/accountFromId
         if(transferType.equals("Send")) {
             accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
@@ -180,7 +182,7 @@ public class App {
             accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
             transactionStatus = "Request complete!";
         }
-
+        // set values to Transfer object
         if (accountFromId != accountToId) {
             transfer.setAccountFrom(accountFromId);
             transfer.setAccountTo(accountToId);

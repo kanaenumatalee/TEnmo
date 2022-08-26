@@ -53,9 +53,6 @@ public class TransferService {
                                   entity,
                                   Transfer.class);
         } catch (RestClientResponseException e) {
-            if(e.getMessage().equals("Not enough balance in your account.")) {
-                System.out.println("You do not have enough balance for your transaction.");
-            }
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println("Failed to complete request due to server network issues. Please try again.");

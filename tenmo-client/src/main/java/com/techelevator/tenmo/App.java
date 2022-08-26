@@ -254,6 +254,7 @@ public class App {
         int toUserId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
         String toUserName = userService.getUserByUserId(authenticatedUser, toUserId).getUsername();
         String transferType = transferTypeService.getTransferTypeById(authenticatedUser, transferTypeId).getTransferTypeDescription();
+        System.out.println("transferType");
         String transferStatus = transferStatusService.getTransferStatusById(authenticatedUser, transferStatusId).getTransferStatusDesc();
 
         consoleService.printTransferDetails(transferId, fromUserName, toUserName, transferType, transferStatus, money);

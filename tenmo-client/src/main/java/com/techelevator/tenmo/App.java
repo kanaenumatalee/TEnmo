@@ -104,7 +104,7 @@ public class App {
     As an authenticated user of the system, I need to be able to send a transfer of a specific amount of TE Bucks to a registered user.
     [COMPLETE] I should be able to choose from a list of users to send TE Bucks to.
     [COMPLETE] I must not be allowed to send money to myself.
-    A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
+    [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
     The receiver's account balance is increased by the amount of the transfer.
     The sender's account balance is decreased by the amount of the transfer.
     I can't send more TE Bucks than I have in my account.
@@ -179,8 +179,8 @@ public class App {
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
         // TODO print transfer history
-        System.out.println("----View transfer history----");
-        System.out.println("[UserID]    [From/To]   [Amount]");
+        System.out.println("-------View transfer history-------");
+        System.out.println("[UserID]    [From/To]     [Amount]");
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
             printTransfers(currentUser, transfer);
@@ -243,7 +243,7 @@ public class App {
     [COMPLETE] I should be able to choose from a list of users to request TE Bucks from.
     [COMPLETE] I must not be allowed to request money from myself.
     I can't request a zero or negative amount.
-    A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
+    [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
     A Request Transfer has an initial status of Pending.
     No account balance changes until the request is approved.
     The transfer request should appear in both users' list of transfers (use case #5).
@@ -251,7 +251,7 @@ public class App {
     private void requestBucks() {
         // TODO print user list
         System.out.println("----Here is your user list----");
-        System.out.println("    [UserID]    [Username]");
+        System.out.println("    [UserID]     [Username]");
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
 
@@ -260,7 +260,7 @@ public class App {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
             makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
         }
-        System.out.println("Transaction complete!");
+        System.out.println("Request complete!");
 
     }
 
@@ -269,8 +269,8 @@ public class App {
     //As an authenticated user of the system, I need to be able to see my Pending transfers.
     private void viewPendingRequests() {
         // TODO print pending transfer
-        System.out.println("-----View pending transfers-----");
-        System.out.println("[UserID]    [From/To]   [Amount]");
+        System.out.println("------View pending transfers------");
+        System.out.println("[UserID]    [From/To]     [Amount]");
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {
             for (Transfer transfer : transfers) {

@@ -101,7 +101,7 @@ public class ConsoleService {
     }
 
     public void printTransfers(int transferId, String transferFromOrTo, BigDecimal money) {
-        System.out.println(transferId + "    " + transferFromOrTo + "    $" + money);
+        System.out.println("    " + transferId + "      " + transferFromOrTo + "     $" + money);
     }
 
     public void printTransferDetails(int transferId, String from, String to, String type, String status, BigDecimal money) {

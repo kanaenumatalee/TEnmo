@@ -105,16 +105,19 @@ public class App {
     [COMPLETE] I should be able to choose from a list of users to send TE Bucks to.
     [COMPLETE] I must not be allowed to send money to myself.
     [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
-    The receiver's account balance is increased by the amount of the transfer.
-    The sender's account balance is decreased by the amount of the transfer.
+    [COMPLETE] The receiver's account balance is increased by the amount of the transfer.
+    [COMPLETE]  The sender's account balance is decreased by the amount of the transfer.
     I can't send more TE Bucks than I have in my account.
     I can't send a zero or negative amount.
     A Sending Transfer has an initial status of Approved.
     */
     private void sendBucks() {
         //TODO print user list
-        System.out.println("----Here is your user list----");
-        System.out.println("    [UserID]    [Username]");
+        System.out.println("----------------------------------");
+        System.out.println("User List");
+        System.out.println("----------------------------------");
+        System.out.printf("%-15s %-15s","[UserID]","[Username]");
+        System.out.println();
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to (0 to cancel): ");
@@ -122,8 +125,6 @@ public class App {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
             makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
         }
-        System.out.println("Transaction complete!");
-
     }
 
     //TODO Validate User ID
@@ -163,14 +164,19 @@ public class App {
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
         }
 
-        transfer.setAccountFrom(accountFromId);
-        transfer.setAccountTo(accountToId);
-        transfer.setAmount(amount);
-        transfer.setTransferStatusId(transferStatusId);
-        transfer.setTransferTypeId(transferTypeId);
+        if (accountFromId != accountToId) {
+            transfer.setAccountFrom(accountFromId);
+            transfer.setAccountTo(accountToId);
+            transfer.setAmount(amount);
+            transfer.setTransferStatusId(transferStatusId);
+            transfer.setTransferTypeId(transferTypeId);
+            transferService.makeTransfer(currentUser, transfer);
+            System.out.println("Transaction complete!");
+        } else {
+            System.out.println("You cannot make a transaction to yourself.");
+            System.out.println("Transaction cancelled.");
+        }
 
-
-        transferService.makeTransfer(currentUser, transfer);
         return transfer;
     }
 
@@ -179,8 +185,11 @@ public class App {
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
         // TODO print transfer history
-        System.out.println("-------View transfer history-------");
-        System.out.println("[TransferID]    [From/To]     [Amount]");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Transfer History");
+        System.out.println("--------------------------------------------------");
+        System.out.printf("%-15s %-15s %-15s","[UserID]","[From/To]","[Amount]");
+        System.out.println();
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
             printTransfers(currentUser, transfer);
@@ -250,8 +259,11 @@ public class App {
     */
     private void requestBucks() {
         // TODO print user list
-        System.out.println("----Here is your user list----");
-        System.out.println("    [UserID]     [Username]");
+        System.out.println("----------------------------------");
+        System.out.println("User List");
+        System.out.println("----------------------------------");
+        System.out.printf("%-15s %-15s","[UserID]","[Username]");
+        System.out.println();
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
 
@@ -269,8 +281,11 @@ public class App {
     //As an authenticated user of the system, I need to be able to see my Pending transfers.
     private void viewPendingRequests() {
         // TODO print pending transfer
-        System.out.println("------View pending transfers------");
-        System.out.println("[UserID]    [From/To]     [Amount]");
+        System.out.println("--------------------------------------------------");
+        System.out.println("Pending Requests");
+        System.out.println("--------------------------------------------------");
+        System.out.printf("%-15s %-15s %-15s","[UserID]","[From/To]","[Amount]");
+        System.out.println();
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {
             for (Transfer transfer : transfers) {
@@ -297,11 +312,11 @@ public class App {
         if (accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
             int accountFromId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
             String userFrom = userService.getUserByUserId(authenticatedUser, accountFromId).getUsername();
-            transferFromOrTo = "From : " + userFrom;
+            transferFromOrTo = "From: " + userFrom;
         } else {
             int accountToId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
             String userTo = userService.getUserByUserId(authenticatedUser, accountToId).getUsername();
-            transferFromOrTo = "To : " + userTo;
+            transferFromOrTo = "To: " + userTo;
         }
         consoleService.printTransfers(transfer.getTransferId(), transferFromOrTo, transfer.getAmount());
 

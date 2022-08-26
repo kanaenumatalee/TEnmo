@@ -94,24 +94,26 @@ public class ConsoleService {
     public void printUsers(User[] users, AuthenticatedUser authenticatedUser) {
         for(User user: users) {
             if(!user.getUsername().equals(authenticatedUser.getUser().getUsername())) {
-                System.out.println("      " + user.getId() + "        " + user.getUsername());
+                System.out.printf("%-15s %-15s",user.getId(), user.getUsername());
+                System.out.println();
             }
         }
         System.out.flush();
     }
 
     public void printTransfers(int transferId, String transferFromOrTo, BigDecimal money) {
-        System.out.println("    " + transferId + "          " + transferFromOrTo + "        $" + money);
+        System.out.printf("%-15s %-15s %-15s", transferId, transferFromOrTo, "$" + money);
+        System.out.println();
     }
 
     public void printTransferDetails(int transferId, String from, String to, String type, String status, BigDecimal money) {
         System.out.println("----Transfer Details-----");
-        System.out.println("Id : " + transferId);
-        System.out.println("From : " + from);
-        System.out.println("To : " + to);
-        System.out.println("Type : " + type);
-        System.out.println("Status : " + status);
-        System.out.println("Amount : $" + money);
+        System.out.println("Id: " + transferId);
+        System.out.println("From: " + from);
+        System.out.println("To: " + to);
+        System.out.println("Type: " + type);
+        System.out.println("Status: " + status);
+        System.out.println("Amount: $" + money);
     }
 
 

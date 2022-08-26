@@ -122,6 +122,7 @@ public class App {
             int userAmountInput = consoleService.promptForInt("Please enter amount to send: ");
             makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));
         }
+        System.out.println("Transaction complete!");
 
     }
 
@@ -259,6 +260,7 @@ public class App {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
             makeTransfer(userIdInput, "Request", "Pending", BigDecimal.valueOf(userAmountInput));
         }
+        System.out.println("Transaction complete!");
 
     }
 

@@ -49,7 +49,6 @@ public class TransferService {
         try {
             restTemplate.exchange(baseUrl + "users/" +
                                   transfer.getTransferId(),
-                   // 4001,
                                   HttpMethod.POST,
                                   entity,
                                   Transfer.class);

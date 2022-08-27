@@ -74,7 +74,6 @@ public class TransferService {
                                               entity,
                                               Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println("Failed to complete request due to server network issues. Please try again.");
@@ -96,7 +95,6 @@ public class TransferService {
                                              entity,
                                              Transfer.class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println("Failed to complete request due to server network issues. Please try again.");
@@ -118,7 +116,6 @@ public class TransferService {
                                               entity,
                                               Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println("Failed to complete request due to server network issues. Please try again.");
@@ -140,10 +137,8 @@ public class TransferService {
                                               entity,
                                               Transfer[].class).getBody();
         } catch (RestClientResponseException e) {
-            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
-            System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
         return transfers;
@@ -160,7 +155,6 @@ public class TransferService {
                                   entity,
                                   Transfer.class);
         } catch (RestClientResponseException e) {
-            System.out.println("Failed to complete your request. Code : " + e.getStatusText());
             BasicLogger.log(e.getRawStatusCode() + " : " + e.getStatusText());
         } catch (ResourceAccessException e) {
             System.out.println("Failed to complete request due to server network issues. Please try again.");

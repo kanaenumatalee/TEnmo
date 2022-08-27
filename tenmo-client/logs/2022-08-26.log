@@ -23,3 +23,5 @@
 2022-08-26T14:51:38.65855 500 : 
 2022-08-26T16:08:01.520615 500 : 
 2022-08-26T17:17:46.249384 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2022-08-26T17:57:32.907256 500 : 
+2022-08-26T18:01:35.504453 500 : 

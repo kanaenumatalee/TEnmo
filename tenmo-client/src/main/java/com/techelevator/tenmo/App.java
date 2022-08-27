@@ -341,7 +341,7 @@ public class App {
         int accountFrom = transfer.getAccountFrom();
         int accountTo = transfer.getAccountTo();
         // if authUser's accountfrom's ID == authUser's ID
-        if (accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
+        if (accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId() == authenticatedUser.getUser().getId()) {
             // get accountFrom ID and use it to get accountFrom username
             int accountFromId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
             String userFrom = userService.getUserByUserId(authenticatedUser, accountFromId).getUsername();

@@ -228,6 +228,8 @@ public class App {
                 for (Transfer transfer : transfers) {
                     if (transfer.getTransferId() == transferId) {
                         transferOption = transfer;
+                        validTransferId = true;
+                        break;
                     }
                 }
                 if (!validTransferId) {
@@ -254,7 +256,6 @@ public class App {
         int toUserId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
         String toUserName = userService.getUserByUserId(authenticatedUser, toUserId).getUsername();
         String transferType = transferTypeService.getTransferTypeById(authenticatedUser, transferTypeId).getTransferTypeDescription();
-        System.out.println("transferType");
         String transferStatus = transferStatusService.getTransferStatusById(authenticatedUser, transferStatusId).getTransferStatusDesc();
 
         consoleService.printTransferDetails(transferId, fromUserName, toUserName, transferType, transferStatus, money);
@@ -365,13 +366,14 @@ public class App {
                 transfer.setTransferStatusId(transferStatusId);
                 BigDecimal balance = accountService.getBalance(currentUser);
                 BigDecimal amount = transfer.getAmount();
+                int accountToId = transfer.getAccountTo();
                 try {
                     if (amount.compareTo(balance) >= 0) {
                        throw new NotEnoughBalanceException();
                     } else {
-                        makeTransfer(amount.intValue(), "Send", "Approved", amount);
+                        makeTransfer(accountToId, "Send", "Approved", amount);
                     }
-                }catch (NotEnoughBalanceException e){
+                } catch (NotEnoughBalanceException e){
                         System.out.println(e.getMessage());
                     }
             } else if(option == 2) {

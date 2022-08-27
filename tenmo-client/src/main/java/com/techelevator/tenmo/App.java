@@ -74,6 +74,10 @@ public class App {
     private void mainMenu() {
         int menuSelection = -1;
         while (menuSelection != 0) {
+            System.out.println("");
+            System.out.println("----------------------------------");
+            System.out.println("Logged in as: " + currentUser.getUser().getUsername());
+            System.out.println("----------------------------------");
             consoleService.printMainMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
             if (menuSelection == 1) {
@@ -316,7 +320,7 @@ public class App {
         System.out.println("--------------------------------------------------");
         System.out.println("Pending Requests");
         System.out.println("--------------------------------------------------");
-        System.out.printf("%-15s %-15s %-15s","[TransferID]","[To]","[Amount]");
+        System.out.printf("%-16s %-14s %-15s","[TransferID]","[To]","[Amount]");
         System.out.println();
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
         if (transfers != null) {
@@ -374,19 +378,17 @@ public class App {
             if(option == 1) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Approved").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);
-//                BigDecimal balance = accountService.getBalance(currentUser);
-//                BigDecimal amount = transfer.getAmount();
-//                int accountToId = transfer.getAccountTo();
-//                try {
-//                    if (amount.compareTo(balance) >= 0) {
-//                       throw new NotEnoughBalanceException();
-//                    } else {
-//                        makeTransfer(accountToId, "Send", "Approved", amount);
-//                    }
-//                } catch (NotEnoughBalanceException e){
-//                        System.out.println(e.getMessage());
-//                    }
-                System.out.println("You approved the request. Transaction is complete!");
+                BigDecimal balance = accountService.getBalance(currentUser);
+                BigDecimal amount = transfer.getAmount();
+                try {
+                    if (amount.compareTo(balance) >= 0) {
+                       throw new NotEnoughBalanceException();
+                    } else {
+                        System.out.println("You approved the request. Transaction is complete!");
+                    }
+                } catch (NotEnoughBalanceException e){
+                        System.out.println(e.getMessage());
+                    }
             } else if (option == 2) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Rejected").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);

@@ -211,7 +211,11 @@ public class App {
         System.out.println();
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         for(Transfer transfer: transfers) {
-            printTransfers(currentUser, transfer);
+            int accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
+            int accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
+            if ( accFromUserId == currentUser.getUser().getId() || accToUserId == currentUser.getUser().getId()) {
+                printTransfers(currentUser, transfer);
+            }
         }
         int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
         Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
@@ -336,17 +340,19 @@ public class App {
         String transferFromOrTo = "";
         int accountFrom = transfer.getAccountFrom();
         int accountTo = transfer.getAccountTo();
+        // if authUser's accountfrom's ID == authUser's ID
         if (accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId() == authenticatedUser.getUser().getId()) {
+            // get accountFrom ID and use it to get accountFrom username
             int accountFromId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
             String userFrom = userService.getUserByUserId(authenticatedUser, accountFromId).getUsername();
             transferFromOrTo = "From: " + userFrom;
         } else {
+            // get accountTo ID and use it to get accountTo username
             int accountToId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
             String userTo = userService.getUserByUserId(authenticatedUser, accountToId).getUsername();
-            transferFromOrTo = "To: " + userTo;
+            transferFromOrTo = " To: " + userTo;
         }
         consoleService.printTransfers(transfer.getTransferId(), transferFromOrTo, transfer.getAmount());
-
     }
 
 

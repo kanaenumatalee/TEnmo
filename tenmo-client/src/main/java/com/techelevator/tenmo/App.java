@@ -372,21 +372,23 @@ public class App {
             if(option == 1) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Approved").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);
-                BigDecimal balance = accountService.getBalance(currentUser);
-                BigDecimal amount = transfer.getAmount();
-                int accountToId = transfer.getAccountTo();
-                try {
-                    if (amount.compareTo(balance) >= 0) {
-                       throw new NotEnoughBalanceException();
-                    } else {
-                        makeTransfer(accountToId, "Send", "Approved", amount);
-                    }
-                } catch (NotEnoughBalanceException e){
-                        System.out.println(e.getMessage());
-                    }
-            } else if(option == 2) {
+//                BigDecimal balance = accountService.getBalance(currentUser);
+//                BigDecimal amount = transfer.getAmount();
+//                int accountToId = transfer.getAccountTo();
+//                try {
+//                    if (amount.compareTo(balance) >= 0) {
+//                       throw new NotEnoughBalanceException();
+//                    } else {
+//                        makeTransfer(accountToId, "Send", "Approved", amount);
+//                    }
+//                } catch (NotEnoughBalanceException e){
+//                        System.out.println(e.getMessage());
+//                    }
+                System.out.println("You approved the request. Transaction is complete!");
+            } else if (option == 2) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Rejected").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);
+                System.out.println("You rejected the request.");
             } else {
                 System.out.println("Invalid option.");
             }

@@ -26,7 +26,7 @@ public class TransferController {
     @Autowired
     TransferTypeDao transferTypeDao;
     @Autowired
-    TransferStatusDao transferStatusDAO;
+    TransferStatusDao transferStatusDao;
     @Autowired
     AccountDao accountDao;
 
@@ -39,11 +39,14 @@ public class TransferController {
         Account accountFrom = accountDao.getAccountByAccountId(transfer.getAccountFrom());
         Account accountTo = accountDao.getAccountByAccountId(transfer.getAccountTo());
 
-        accountFrom.sendMoney(transferAmount);
-        accountTo.getMoney(transferAmount);
+        if(transfer.getTransferStatusId() == transferStatusDao.getTransferStatusByDesc("Approved").getTransferStatusId()) {
+            accountFrom.sendMoney(transferAmount);
+            accountTo.getMoney(transferAmount);
 
-        accountDao.updateAccount(accountFrom);
-        accountDao.updateAccount(accountTo);
+            accountDao.updateAccount(accountFrom);
+            accountDao.updateAccount(accountTo);
+        }
+
         transferDao.makeTransfer(transfer);
     }
 
@@ -75,7 +78,7 @@ public class TransferController {
 
     // getPendingTransfers
     @RequestMapping(path = "users/{userId}/pending", method = RequestMethod.GET)
-    public List<Transfer> getPendingTransfers(@PathVariable int userId ){
+    public List<Transfer> getPendingTransfers(@PathVariable int userId){
         return transferDao.getPendingTransfers(userId);
     }
 
@@ -84,12 +87,12 @@ public class TransferController {
     //TransferStatusDao
     @RequestMapping(path="transfer_status/desc/{description}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusByDescription(@PathVariable String description) {
-        return transferStatusDAO.getTransferStatusByDesc(description);
+        return transferStatusDao.getTransferStatusByDesc(description);
     }
 
     @RequestMapping(path="transfer_status/{id}", method = RequestMethod.GET)
     public TransferStatus getTransferStatusById(@PathVariable int id) {
-        return transferStatusDAO.getTransferStatusById(id);
+        return transferStatusDao.getTransferStatusById(id);
     }
 
 
@@ -110,7 +113,7 @@ public class TransferController {
     public void updateTransferStatus(@RequestBody Transfer transfer, @PathVariable int id) throws InsufficientBalanceException {
 
         // only go through with the transfer if approved
-        if(transfer.getTransferStatusId() == transferStatusDAO.getTransferStatusByDesc("Approved").getTransferStatusId()) {
+        if(transfer.getTransferStatusId() == transferStatusDao.getTransferStatusByDesc("Approved").getTransferStatusId()) {
 
             BigDecimal amountToTransfer = transfer.getAmount();
             Account accountFrom = accountDao.getAccountByAccountId(transfer.getAccountFrom());

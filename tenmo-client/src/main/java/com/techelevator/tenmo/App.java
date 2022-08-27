@@ -167,7 +167,7 @@ public class App {
     }
 
     //TODO make transfer
-    private Transfer makeTransfer(int accountTo, String transferType, String statusDescription, BigDecimal amount) {
+    private Transfer makeTransfer(int userAccountChoice, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
         int transferTypeId = transferTypeService.getTransferTypeByDescription(currentUser, transferType).getTransferTypeId();
         int transferStatusId = transferStatusService.getTransferStatus(currentUser, statusDescription).getTransferStatusId();
@@ -176,12 +176,12 @@ public class App {
         String transactionStatus = "";
         // Assign accountToId/accountFromId
         if(transferType.equals("Send")) {
-            accountToId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
+            accountToId = accountService.getAccountByUserId(currentUser, userAccountChoice).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
             transactionStatus = "Transaction complete!";
-        } else {
+        } else { //Request
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
-            accountFromId = accountService.getAccountByUserId(currentUser, accountTo).getAccountId();
+            accountFromId = accountService.getAccountByUserId(currentUser, userAccountChoice).getAccountId();
             transactionStatus = "Request complete!";
         }
         // set values to Transfer object
@@ -213,7 +213,8 @@ public class App {
         for(Transfer transfer: transfers) {
             int accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
             int accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
-            if ( accFromUserId == currentUser.getUser().getId() || accToUserId == currentUser.getUser().getId()) {
+            if (accFromUserId == currentUser.getUser().getId() &&  transfer.getTransferStatusId() == 2 ||
+                    accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
                 printTransfers(currentUser, transfer);
             }
         }
@@ -333,6 +334,7 @@ public class App {
         }
 
     }
+
 
 
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.

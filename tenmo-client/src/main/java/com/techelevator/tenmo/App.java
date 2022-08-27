@@ -363,13 +363,24 @@ public class App {
             if(option == 1) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Approved").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);
+                BigDecimal balance = accountService.getBalance(currentUser);
+                BigDecimal amount = transfer.getAmount();
+                try {
+                    if (amount.compareTo(balance) >= 0) {
+                       throw new NotEnoughBalanceException();
+                    } else {
+                        makeTransfer(amount.intValue(), "Send", "Approved", amount);
+                    }
+                }catch (NotEnoughBalanceException e){
+                        System.out.println(e.getMessage());
+                    }
             } else if(option == 2) {
                 transferStatusId = transferStatusService.getTransferStatus(authenticatedUser, "Rejected").getTransferStatusId();
                 transfer.setTransferStatusId(transferStatusId);
             } else {
                 System.out.println("Invalid option.");
             }
-            transferService.updateTransfer(authenticatedUser, transfer);
+            transferService.updateTransferStatus(authenticatedUser, transfer);
         }
     }
 

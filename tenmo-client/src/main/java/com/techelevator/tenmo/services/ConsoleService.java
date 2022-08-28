@@ -13,6 +13,7 @@ public class ConsoleService {
 
     private final Scanner scanner = new Scanner(System.in);
 
+
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
         System.out.print(prompt);
@@ -25,9 +26,21 @@ public class ConsoleService {
     }
 
     public void printGreeting() {
-        System.out.println("*********************");
-        System.out.println("* Welcome to TEnmo! *");
-        System.out.println("*********************");
+        System.out.println("**************************************************");
+        System.out.println("*                                                *");
+        System.out.println("*               Welcome to TEnmo!                *");
+        System.out.println("*                                                *");
+        System.out.println("**************************************************");
+    }
+
+    public void printForExiting() {
+        System.out.println();
+        System.out.println("**************************************************");
+        System.out.println("*                                                *");
+        System.out.println("*          Thank you for using TEnmo!            *");
+        System.out.println("*              Please come again!                *");
+        System.out.println("*                                                *");
+        System.out.println("**************************************************");
     }
 
     public void printLoginMenu() {

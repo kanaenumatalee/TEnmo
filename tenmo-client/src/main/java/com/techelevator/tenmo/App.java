@@ -76,7 +76,7 @@ public class App {
         while (menuSelection != 0) {
             System.out.println("");
             System.out.println("----------------------------------");
-            System.out.println("Logged in as: " + currentUser.getUser().getUsername());
+            System.out.println("You are logged in as: " + currentUser.getUser().getUsername());
             System.out.println("----------------------------------");
             consoleService.printMainMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
@@ -93,6 +93,7 @@ public class App {
             } else if (menuSelection == 6) {
                 handleLogin();
             } else if (menuSelection == 0) {
+                consoleService.printForExiting();
                 continue;
             } else {
                 System.out.println("Invalid Selection");

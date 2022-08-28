@@ -5,3 +5,4 @@
 2022-08-28T00:53:57.886522 I/O error on POST request for "http://localhost:8080/register": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
 2022-08-28T00:58:03.049534 I/O error on POST request for "http://localhost:8080/register": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
 2022-08-28T00:58:07.603266 I/O error on POST request for "http://localhost:8080/login": Connection refused (Connection refused); nested exception is java.net.ConnectException: Connection refused (Connection refused)
+2022-08-28T10:35:57.079595 404 : 

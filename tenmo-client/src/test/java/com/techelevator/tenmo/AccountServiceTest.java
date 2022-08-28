@@ -24,7 +24,7 @@ import static org.mockito.Mockito.when;
 
 public class AccountServiceTest {
 
-    private static final String EXPECTED_API_URL = "http://localhost:8080/";
+    private static final String EXPECTED_API_URL = "http://localhost:8080/account";
 
     private static final RestClientResponseException REST_CLIENT_RESPONSE_EXCEPTION =
             new RestClientResponseException("This is a RestClientResponseException", 0, "Testing", null, null, null);
@@ -33,7 +33,7 @@ public class AccountServiceTest {
 
 
     private RestTemplate mockRestTemplate;
-    private AccountService sut;
+    private AccountService sut = new AccountService(EXPECTED_API_URL);
 
     private User testUser = new User();
     private UserCredentials userCred = new UserCredentials("testuser", "testpass");
@@ -57,6 +57,7 @@ public class AccountServiceTest {
     public void return_get_balance(){
 
         returnBalance = sut.getBalance(authUser);
+
         Assert.assertEquals("AccountService.getBalance() should call the API and return the balance", 1000, returnBalance);
 
     }

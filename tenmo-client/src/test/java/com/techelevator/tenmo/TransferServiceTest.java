@@ -1,5 +1,6 @@
 package com.techelevator.tenmo;
 
+import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.tenmo.services.AccountService;
 import com.techelevator.tenmo.services.TransferService;
@@ -26,7 +27,7 @@ import static org.springframework.test.web.client.response.MockRestResponseCreat
 
 public class TransferServiceTest {
 
-    private static final String EXPECTED_API_URL = "http://localhost:8080/";
+    private static final String EXPECTED_API_URL = "http://localhost:8080/transferZ";
 
     private final RestTemplate restTemplate = new RestTemplate();
     private final TransferService sut = new TransferService(EXPECTED_API_URL);
@@ -35,6 +36,7 @@ public class TransferServiceTest {
     private final UserService userService = new UserService(EXPECTED_API_URL);
     private final TransferService transferService = new TransferService(EXPECTED_API_URL);
     private static final int TEST_ID = 1001;
+    private final AuthenticatedUser authenticatedUser = new AuthenticatedUser();
 
 
     @Test
@@ -47,16 +49,17 @@ public class TransferServiceTest {
                 .andRespond(withSuccess("{\"id\":" + TEST_ID + "}", MediaType.APPLICATION_JSON));
 
         Transfer transfer = null;
+        Transfer[] transfers = null;
 
         try{
 
-            //transfer = sut.viewTransferHistory(authenticatedUser);
+            transfers = sut.viewTransferHistory(authenticatedUser);
 
         }
         catch (AssertionError e) {
             fail("Didn't send the expected request to retrieve past transfers. Verify that the URL, HTTP method, and headers are correct.");
         }
-        Assert.assertNotNull("Call to viewTransferHistory() returned null.", transfer);
+        Assert.assertNotNull("Call to viewTransferHistory() returned null.", transfers);
         Assert.assertEquals("Call to viewTransferHistory() didn't return the expected data.", TEST_ID, transfer.getTransferId());
     }
 
@@ -70,16 +73,17 @@ public class TransferServiceTest {
                 .andRespond(withSuccess("{\"id\":" + TEST_ID + "}", MediaType.APPLICATION_JSON));
 
         Transfer transfer = null;
+        Transfer[] transfers = null;
 
         try{
 
-            //transfer = sut.getAllTransfers(/authenticatedUser*/);
+            transfers = sut.getAllTransfers(authenticatedUser);
 
         }
         catch (AssertionError e) {
             fail("Didn't send the expected request to retrieve all transfers. Verify that the URL, HTTP method, and headers are correct.");
         }
-        Assert.assertNotNull("Call to viewTransferHistory() returned null.", transfer);
+        Assert.assertNotNull("Call to viewTransferHistory() returned null.", transfers);
         Assert.assertEquals("Call to viewTransferHistory() didn't return the expected data.", TEST_ID, transfer.getTransferId());
     }
 
@@ -98,7 +102,7 @@ public class TransferServiceTest {
 
         Transfer actualTransfer = null;
 
-        //actualTransfer = sut.updateTransferStatus(/**authenticatedUser*/);
+        sut.updateTransferStatus(authenticatedUser, actualTransfer);
 
         Assert.assertEquals("auctionService.add() should call the API and return the newly created auction", expectedTransfer, actualTransfer);
 

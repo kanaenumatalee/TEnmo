@@ -6,6 +6,7 @@ import com.techelevator.exception.NoUserFoundException;
 import com.techelevator.exception.NotEnoughBalanceException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 
@@ -75,9 +76,19 @@ public class App {
         int menuSelection = -1;
         while (menuSelection != 0) {
             System.out.println("");
-            System.out.println("----------------------------------");
-            System.out.println("You are logged in as: " + currentUser.getUser().getUsername());
-            System.out.println("----------------------------------");
+            //System.out.println("-----------------------------------");
+            System.out.println(StringUtils.center("", 50, "-"));
+            System.out.print("|");
+            System.out.print(StringUtils.center("", 48, " "));
+            System.out.println("|");
+            System.out.print("|");
+            System.out.print(StringUtils.center("You are logged in as: " + currentUser.getUser().getUsername(), 48));
+            System.out.println("|");
+            System.out.print("|");
+            System.out.print(StringUtils.center("", 48, " "));
+            System.out.println("|");
+            System.out.println(StringUtils.center("", 50, "-"));
+            //System.out.println("-----------------------------------");
             consoleService.printMainMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
             if (menuSelection == 1) {

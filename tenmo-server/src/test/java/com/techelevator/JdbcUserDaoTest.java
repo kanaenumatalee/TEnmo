@@ -10,16 +10,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import java.time.LocalDate;
 import java.util.List;
 
-public class JdbcUserDaoTest extends  BaseDaoTests{
+public class JdbcUserDaoTest extends BaseDaoTests{
     private JdbcUserDao sut;
     private User newUser;
     private List<User> newUsers;
     @Before
     public void setup(){
-        sut = new JdbcUserDao((JdbcTemplate) dataSource);
-        newUser.setUsername("Noah");
-        newUser.setId(1L);
-        newUser.setPassword("010101");
+        sut = new JdbcUserDao(dataSource);
+        newUser = new User(1001L,"Noah", "10101", "true");
     }
     @Test
     public void findByUsername_returns_correct_user_for_username() {

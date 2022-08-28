@@ -16,11 +16,11 @@ public class JdbcAccountDaoTest extends BaseDaoTests {
     @Before
     public void setup(){
         sut = new JdbcAccountDao(dataSource);
-        newAccount = new Account(2002, 1002, BigDecimal.valueOf(1000));
+        newAccount = new Account(2002, 1002, new BigDecimal("1000.00"));
     }
     @Test
     public void getBalance_returns_correct_balance() {
-        Assert.assertEquals(BigDecimal.valueOf(1000),sut.getBalance("Mio"));
+        Assert.assertEquals(new BigDecimal ("1000.00"),sut.getBalance("Mio"));
     }
 
 
@@ -32,8 +32,8 @@ public class JdbcAccountDaoTest extends BaseDaoTests {
 
     @Test
     public void getAccountByUserID_returns_correct_account() {
-
         assertAccountsMatch(newAccount, sut.getAccountByUserId(1002));
+
     }
 
 

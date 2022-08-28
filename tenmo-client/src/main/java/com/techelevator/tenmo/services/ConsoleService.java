@@ -5,6 +5,7 @@ import com.techelevator.exception.NegativeValueException;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.tenmo.model.UserCredentials;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -38,27 +39,31 @@ public class ConsoleService {
         System.out.println("**************************************************");
         System.out.println("*                                                *");
         System.out.println("*          Thank you for using TEnmo!            *");
-        System.out.println("*              Please come again!                *");
         System.out.println("*                                                *");
         System.out.println("**************************************************");
     }
 
     public void printLoginMenu() {
-        System.out.println();
-        System.out.println("1: Register");
-        System.out.println("2: Login");
-        System.out.println("0: Exit");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.printf("%-2s%-47s%1s","| ","1: Register","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","2: Login","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","0: Exit","|\n");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
         System.out.println();
     }
 
     public void printMainMenu() {
-        System.out.println("1: View your current balance");
-        System.out.println("2: View your past transfers");
-        System.out.println("3: View your pending requests");
-        System.out.println("4: Send TE bucks");
-        System.out.println("5: Request TE bucks");
-        System.out.println("6: Log in as different user");
-        System.out.println("0: Exit");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.printf("%-2s%-47s%1s","| ","1: View your current balance","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","2: View your past transfers","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","3: View your pending requests","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","4: Send TE bucks","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","5: Request TE bucks","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","6: Log in as different user","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","0: Exit","|\n");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
         System.out.println();
     }
 
@@ -109,7 +114,7 @@ public class ConsoleService {
     public void printUsers(User[] users, AuthenticatedUser authenticatedUser) {
         for(User user: users) {
             if(!user.getUsername().equals(authenticatedUser.getUser().getUsername())) {
-                System.out.printf("%-15s %-15s",user.getId(), user.getUsername());
+                System.out.printf("| %-23s%23s |",user.getId(), user.getUsername());
                 System.out.println();
             }
         }
@@ -117,27 +122,41 @@ public class ConsoleService {
     }
 
     public void printTransfers(int transferId, String transferFromOrTo, BigDecimal money) {
-        System.out.printf("%-15s %-15s %-15s", transferId, transferFromOrTo, "$" + money);
+        System.out.printf("| %-19s%-12s%15s |", transferId, transferFromOrTo, "$" + money);
         System.out.println();
     }
 
     public void printTransferDetails(int transferId, String from, String to, String type, String status, BigDecimal money) {
-        System.out.println("----Transfer Details-----");
-        System.out.println("Id: " + transferId);
-        System.out.println("From: " + from);
-        System.out.println("To: " + to);
-        System.out.println("Type: " + type);
-        System.out.println("Status: " + status);
-        System.out.println("Amount: $" + money);
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("Transfer Details", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.printf("%-2s%-47s%1s","| ","Id: " + transferId,"|\n");
+        System.out.printf("%-2s%-47s%1s","| ","From: " + from,"|\n");
+        System.out.printf("%-2s%-47s%1s","| ","To: " + to,"|\n");
+        System.out.printf("%-2s%-47s%1s","| ","Type: " + type,"|\n");
+        System.out.printf("%-2s%-47s%1s","| ","Status: " + status,"|\n");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println();
     }
 
 
     public void printApproveOrRejectChoices() {
-        System.out.println("1: Approve");
-        System.out.println("2: Reject");
-        System.out.println("0: Don't approve or reject");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("Pending Choices", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.printf("%-2s%-47s%1s","| ","1: Approve","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","2: Reject","|\n");
+        System.out.printf("%-2s%-47s%1s","| ","0: Don't approve or reject","|\n");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println();
     }
-
-
 
 }

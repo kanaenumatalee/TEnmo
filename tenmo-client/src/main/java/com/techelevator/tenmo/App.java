@@ -58,37 +58,35 @@ public class App {
         System.out.println("Please register a new user account");
         UserCredentials credentials = consoleService.promptForCredentials();
         if (authenticationService.register(credentials)) {
+            System.out.println();
             System.out.println("Registration successful. You can now login.");
         } else {
+            System.out.println();
             consoleService.printErrorMessage();
         }
+        System.out.println();
+        consoleService.printGreeting();
     }
+
 
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
         currentUser = authenticationService.login(credentials);
         if (currentUser == null) {
+            System.out.println();
             consoleService.printErrorMessage();
+            consoleService.printGreeting();
         }
     }
 
     private void mainMenu() {
         int menuSelection = -1;
         while (menuSelection != 0) {
-            System.out.println("");
-            //System.out.println("-----------------------------------");
             System.out.println(StringUtils.center("", 50, "-"));
-            System.out.print("|");
-            System.out.print(StringUtils.center("", 48, " "));
-            System.out.println("|");
-            System.out.print("|");
-            System.out.print(StringUtils.center("You are logged in as: " + currentUser.getUser().getUsername(), 48));
-            System.out.println("|");
-            System.out.print("|");
-            System.out.print(StringUtils.center("", 48, " "));
-            System.out.println("|");
+            System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+            System.out.println("|" + StringUtils.center("You are logged in as: " + currentUser.getUser().getUsername(), 48) + "|");
+            System.out.println("|" + StringUtils.center("", 48, " ") + "|");
             System.out.println(StringUtils.center("", 50, "-"));
-            //System.out.println("-----------------------------------");
             consoleService.printMainMenu();
             menuSelection = consoleService.promptForMenuSelection("Please choose an option: ");
             if (menuSelection == 1) {
@@ -133,13 +131,17 @@ public class App {
     */
     private void sendBucks() {
         //TODO print user list
-        System.out.println("----------------------------------");
-        System.out.println("User List");
-        System.out.println("----------------------------------");
-        System.out.printf("%-15s %-15s","[UserID]","[Username]");
-        System.out.println();
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("User List", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("| [UserID]                            [Username] |");
+        System.out.println(StringUtils.center("", 50, "-"));
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println();
         int userIdInput = consoleService.promptForInt("Please enter UserID you would like to send to (0 to cancel): ");
         // validate userId and input value amount
         if(isValidUserId(userIdInput, users)) {
@@ -220,26 +222,39 @@ public class App {
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
         // TODO print transfer history
-        System.out.println("--------------------------------------------------");
-        System.out.println("Transfer History");
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-15s %-15s %-15s","[TransferID]","[From/To]","[Amount]");
-        System.out.println();
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("Transfer History", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("| [TransferID]      [From/To]           [Amount] |");
+        System.out.println(StringUtils.center("", 50, "-"));
+        //System.out.println();
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
+        int accFromUserId = 0;
+        int accToUserId = 0;
         for(Transfer transfer: transfers) {
-            int accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
-            int accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
+            accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
+            accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
             if (accFromUserId == currentUser.getUser().getId() &&  transfer.getTransferStatusId() == 2 ||
                     accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
                 printTransfers(currentUser, transfer);
             }
         }
+        System.out.println(StringUtils.center("", 50, "-"));
         int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
         Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
-        if(transfer != null) {
+        accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
+        accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
+        if(transfer != null && accFromUserId == currentUser.getUser().getId() &&  transfer.getTransferStatusId() == 2 ||
+                accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
             printTransferDetails(currentUser, transfer);
+        } else {
+            System.out.println("Invalid transfer ID.");
         }
     }
+
+
 
 
     //TODO Validate Transfer ID
@@ -301,14 +316,16 @@ public class App {
     */
     private void requestBucks() {
         // TODO print user list
-        System.out.println("----------------------------------");
-        System.out.println("User List");
-        System.out.println("----------------------------------");
-        System.out.printf("%-15s %-15s","[UserID]","[Username]");
-        System.out.println();
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("User List", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("| [UserID]                            [Username] |");
+        System.out.println(StringUtils.center("", 50, "-"));
         User[] users = userService.getAllUsers(currentUser);
         consoleService.printUsers(users, currentUser);
-
+        System.out.println(StringUtils.center("", 50, "-"));
         int userIdInput = consoleService.promptForInt("Please enter user ID you would like to request from (0 to cancel): ");
         if(isValidUserId(userIdInput, users)) {
             int userAmountInput = consoleService.promptForInt("Please enter amount to request: ");
@@ -326,19 +343,23 @@ public class App {
 
 
 
-    //As an authenticated user of the system, I need to be able to see my Pending transfers.
+
     private void viewPendingRequests() {
         // TODO print pending transfer
-        System.out.println("--------------------------------------------------");
-        System.out.println("Pending Requests");
-        System.out.println("--------------------------------------------------");
-        System.out.printf("%-16s %-14s %-15s","[TransferID]","[To]","[Amount]");
-        System.out.println();
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("Pending Requests", 48, " ") + "|");
+        System.out.println("|" + StringUtils.center("", 48, " ") + "|");
+        System.out.println(StringUtils.center("", 50, "-"));
+        System.out.println("| [TransferID]       [To]               [Amount] |");
+        System.out.println(StringUtils.center("", 50, "-"));
         Transfer[] transfers = transferService.getPendingTransfersByUserId(currentUser);
-        if (transfers != null) {
+        if (transfers.length != 0) {
             for (Transfer transfer : transfers) {
                 printTransfers(currentUser, transfer);
             }
+            System.out.println(StringUtils.center("", 50, "-"));
+            System.out.println();
             //TODO approve or reject
             int transferOption = consoleService.promptForInt("Please enter transfer ID to approve/reject (0 to cancel) : ");
             Transfer transfer = validateTransferId(transferOption, transfers, currentUser);
@@ -346,10 +367,11 @@ public class App {
                 approveOrReject(transfer, currentUser);
             }
         } else {
+            System.out.println();
             System.out.println("No pending transfer to show.");
         }
-
     }
+
 
 
 
@@ -368,7 +390,7 @@ public class App {
             // get accountTo ID and use it to get accountTo username
             int accountToId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
             String userTo = userService.getUserByUserId(authenticatedUser, accountToId).getUsername();
-            transferFromOrTo = " To: " + userTo;
+            transferFromOrTo = "To: " + userTo;
         }
         consoleService.printTransfers(transfer.getTransferId(), transferFromOrTo, transfer.getAmount());
     }
@@ -411,7 +433,5 @@ public class App {
             transferService.updateTransferStatus(authenticatedUser, transfer);
         }
     }
-
-
 }
 

@@ -244,12 +244,9 @@ public class App {
         System.out.println(StringUtils.center("", 50, "-"));
         int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
         Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
-        accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
-        accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
-        if(transfer != null && accFromUserId == currentUser.getUser().getId() &&  transfer.getTransferStatusId() == 2 ||
-                accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
+        if(transfer != null) {
             printTransferDetails(currentUser, transfer);
-        } else {
+        } else if (transferIdInput != 0){
             System.out.println("Invalid transfer ID.");
         }
     }

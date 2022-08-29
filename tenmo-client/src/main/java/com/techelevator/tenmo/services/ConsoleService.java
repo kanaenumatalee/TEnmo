@@ -122,7 +122,11 @@ public class ConsoleService {
     }
 
     public void printTransfers(int transferId, String transferFromOrTo, BigDecimal money) {
-        System.out.printf("| %-19s%-12s%15s |", transferId, transferFromOrTo, "$" + money);
+        if (transferFromOrTo.contains("From:")) {
+            System.out.printf("| %-19s%-12s%15s |", transferId, transferFromOrTo, "+$" + money);
+        }  else if (transferFromOrTo.contains("To:")) {
+            System.out.printf("| %-19s%-12s%15s |", transferId, transferFromOrTo, "-$" + money);
+        }
         System.out.println();
     }
 

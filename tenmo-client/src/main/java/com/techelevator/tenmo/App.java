@@ -236,18 +236,23 @@ public class App {
         for(Transfer transfer: transfers) {
             accFromUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountFrom()).getUserId();
             accToUserId = accountService.getAccountByAccountId(currentUser, transfer.getAccountTo()).getUserId();
-            if (accFromUserId == currentUser.getUser().getId() &&  transfer.getTransferStatusId() == 2 ||
+            if (accFromUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2 ||
                     accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
                 printTransfers(currentUser, transfer);
             }
         }
         System.out.println(StringUtils.center("", 50, "-"));
         int transferIdInput = consoleService.promptForInt("Please enter transfer ID to view details (0 to cancel): ");
-        Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
-        if(transfer != null) {
-            printTransferDetails(currentUser, transfer);
-        } else if (transferIdInput != 0){
-            System.out.println("Invalid transfer ID.");
+        if (transferIdInput == 0) {
+        } else {
+            Transfer transfer = validateTransferId(transferIdInput, transfers, currentUser);
+            if (transfer != null &&
+                    accFromUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2 ||
+                    accToUserId == currentUser.getUser().getId() && transfer.getTransferStatusId() == 2) {
+                printTransferDetails(currentUser, transfer);
+            } else {
+                System.out.println("Invalid transfer ID.");
+            }
         }
     }
 

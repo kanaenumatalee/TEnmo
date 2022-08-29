@@ -151,7 +151,7 @@ public class App {
             try {
                 if (userAmountInput <= 0) {
                     throw new NegativeValueException();
-                } else if (userAmount.compareTo(balance) >= 0) {
+                } else if (userAmount.compareTo(balance) > 0) {
                     throw new NotEnoughBalanceException();
                 } else {
                     makeTransfer(userIdInput, "Send", "Approved", BigDecimal.valueOf(userAmountInput));

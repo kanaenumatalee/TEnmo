@@ -10,11 +10,11 @@ import org.apache.commons.lang3.StringUtils;
 import java.math.BigDecimal;
 import java.util.Scanner;
 
-public class ConsoleService {
 
+public class ConsoleService {
     private final Scanner scanner = new Scanner(System.in);
 
-
+    
     public int promptForMenuSelection(String prompt) {
         int menuSelection;
         System.out.print(prompt);
@@ -89,7 +89,6 @@ public class ConsoleService {
         }
     }
 
-
     public BigDecimal promptForBigDecimal(String prompt) {
         System.out.print(prompt);
         while (true) {
@@ -109,7 +108,6 @@ public class ConsoleService {
     public void printErrorMessage() {
         System.out.println("An error occurred. Check the log for details.");
     }
-
 
     public void printUsers(User[] users, AuthenticatedUser authenticatedUser) {
         for(User user: users) {
@@ -147,7 +145,6 @@ public class ConsoleService {
         System.out.println();
     }
 
-
     public void printApproveOrRejectChoices() {
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println("|" + StringUtils.center("", 48, " ") + "|");
@@ -162,5 +159,4 @@ public class ConsoleService {
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println();
     }
-
 }

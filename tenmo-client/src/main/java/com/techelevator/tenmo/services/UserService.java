@@ -1,8 +1,10 @@
 package com.techelevator.tenmo.services;
 
+
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.User;
 import com.techelevator.util.BasicLogger;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+
 
 public class UserService {
     private String baseUrl;
@@ -51,9 +54,6 @@ public class UserService {
         }
         return user;
     }
-
-
-
 
     private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();

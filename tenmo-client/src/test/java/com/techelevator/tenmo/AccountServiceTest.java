@@ -77,15 +77,21 @@ public class AccountServiceTest {
         when(mockRestTemplate.postForObject(
                 Mockito.eq(EXPECTED_API_URL),
                 any(HttpEntity.class),
-                Mockito.eq(Account.class)))
-                .thenThrow(RESOURCE_ACCESS_EXCEPTION);
-
+                Mockito.eq(Account.class)
+        ))
+        .thenThrow(RESOURCE_ACCESS_EXCEPTION);
         // Act
         returnBalance = sut.getBalance(authUser);
-
         // Assert
-        Assert.assertNull("auctionService.getBalance() should return null when RestTemplate throws a ResourceAccessException",returnBalance);
+        Assert.assertNull(
+            "auctionService.getBalance() should return null when RestTemplate throws a ResourceAccessException", 
+            returnBalance
+        );
         verify(mockRestTemplate)
-                .postForObject(eq(EXPECTED_API_URL), any(HttpEntity.class), eq(Account.class));
+        .postForObject(
+            eq(EXPECTED_API_URL), 
+            any(HttpEntity.class), 
+            eq(Account.class)
+        );
     }
 }

@@ -1,9 +1,10 @@
 package com.techelevator.tenmo.model;
 
+
 import java.util.Objects;
 
-public class Authority {
 
+public class Authority {
    private String name;
 
    public String getName() {
@@ -33,8 +34,6 @@ public class Authority {
 
    @Override
    public String toString() {
-      return "Authority{" +
-         "name=" + name +
-         '}';
+      return "Authority{" + "name=" + name + "}";
    }
 }

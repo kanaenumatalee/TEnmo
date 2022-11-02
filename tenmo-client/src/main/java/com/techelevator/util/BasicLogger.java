@@ -1,16 +1,17 @@
 package com.techelevator.util;
 
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class BasicLogger {
 
+public class BasicLogger {
 	private static PrintWriter pw = null;
-	
 	public static void log(String message) {
 		try {
 			if (pw == null) {
@@ -24,5 +25,4 @@ public class BasicLogger {
 			throw new BasicLoggerException(e.getMessage());
 		}
 	}
-
 }

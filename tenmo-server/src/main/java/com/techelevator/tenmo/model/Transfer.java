@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.model;
 
+
 import java.math.BigDecimal;
+
 
 public class Transfer {
     private int transferId;
@@ -19,9 +21,7 @@ public class Transfer {
         this.amount = amount;
     }
 
-    public Transfer() {
-
-    }
+    public Transfer() {}
 
     public int getTransferId() {
         return transferId;

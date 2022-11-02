@@ -1,6 +1,8 @@
 package com.techelevator.tenmo.dao;
 
+
 import com.techelevator.tenmo.model.User;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -10,19 +12,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+
 import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Component
 public class JdbcUserDao implements UserDao {
-
     private static final BigDecimal STARTING_BALANCE = new BigDecimal("1000.00");
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     public JdbcUserDao(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
-
 
     @Override
     public int findIdByUsername(String username) {
@@ -59,7 +61,6 @@ public class JdbcUserDao implements UserDao {
 
     @Override
     public boolean create(String username, String password) {
-
         // create user
         String sql = "INSERT INTO tenmo_user (username, password_hash) VALUES (?, ?) RETURNING user_id";
         String password_hash = new BCryptPasswordEncoder().encode(password);
@@ -69,7 +70,6 @@ public class JdbcUserDao implements UserDao {
         } catch (DataAccessException e) {
             return false;
         }
-
         // create account
         sql = "INSERT INTO account (user_id, balance) values(?, ?)";
         try {
@@ -77,7 +77,6 @@ public class JdbcUserDao implements UserDao {
         } catch (DataAccessException e) {
             return false;
         }
-
         return true;
     }
 
@@ -92,11 +91,6 @@ public class JdbcUserDao implements UserDao {
         }
         return user;
     }
-
-
-
-
-
 
     private User mapRowToUser(SqlRowSet rs) {
         User user = new User();

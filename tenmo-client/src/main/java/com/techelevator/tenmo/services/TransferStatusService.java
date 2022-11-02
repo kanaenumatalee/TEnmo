@@ -1,8 +1,10 @@
 package com.techelevator.tenmo.services;
 
+
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.TransferStatus;
 import com.techelevator.util.BasicLogger;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -10,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
+
 
 public class TransferStatusService {
     private final String baseUrl;
@@ -38,11 +41,9 @@ public class TransferStatusService {
         return transferStatus;
     }
 
-
     public TransferStatus getTransferStatusById(AuthenticatedUser authenticatedUser, int transferStatusId) {
         TransferStatus transferStatus = null;
         HttpEntity entity = makeEntity(authenticatedUser);
-
         try {
             String url = baseUrl + "transfer_status/" + transferStatusId;
             transferStatus = restTemplate.exchange(url,
@@ -56,7 +57,6 @@ public class TransferStatusService {
             System.out.println("Failed to complete request due to server network issues. Please try again.");
             BasicLogger.log(e.getMessage());
         }
-
         return transferStatus;
     }
 

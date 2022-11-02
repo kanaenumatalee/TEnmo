@@ -1,5 +1,6 @@
 package com.techelevator.tenmo.services;
 
+
 import com.techelevator.util.BasicLogger;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -13,11 +14,12 @@ import org.springframework.web.client.RestTemplate;
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.UserCredentials;
 
-public class AuthenticationService {
 
+public class AuthenticationService {
     private final String baseUrl;
     private final RestTemplate restTemplate = new RestTemplate();
-
+    
+    
     public AuthenticationService(String url) {
         this.baseUrl = url;
     }

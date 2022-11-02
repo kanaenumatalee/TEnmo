@@ -1,19 +1,21 @@
 package com.techelevator.tenmo;
 
+
 import com.techelevator.exception.InvalidTransferIdException;
 import com.techelevator.exception.NegativeValueException;
 import com.techelevator.exception.NoUserFoundException;
 import com.techelevator.exception.NotEnoughBalanceException;
 import com.techelevator.tenmo.model.*;
 import com.techelevator.tenmo.services.*;
+
 import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigDecimal;
 
+
 public class App {
-
     private static final String API_BASE_URL = "http://localhost:8080/";
-
+    
     private final ConsoleService consoleService = new ConsoleService();
     private final AuthenticationService authenticationService = new AuthenticationService(API_BASE_URL);
     private final AccountService accountService = new AccountService(API_BASE_URL);
@@ -21,11 +23,10 @@ public class App {
     private final TransferService transferService = new TransferService(API_BASE_URL);
     private final TransferTypeService transferTypeService = new TransferTypeService(API_BASE_URL);
     private final TransferStatusService transferStatusService = new TransferStatusService(API_BASE_URL);
-
-
+    
     private AuthenticatedUser currentUser;
 
-
+    
     public static void main(String[] args) throws NegativeValueException {
         App app = new App();
         app.run();
@@ -38,6 +39,7 @@ public class App {
             mainMenu();
         }
     }
+    
     private void loginMenu() {
         int menuSelection = -1;
         while (menuSelection != 0 && currentUser == null) {
@@ -67,7 +69,6 @@ public class App {
         System.out.println();
         consoleService.printGreeting();
     }
-
 
     private void handleLogin() {
         UserCredentials credentials = consoleService.promptForCredentials();
@@ -111,24 +112,11 @@ public class App {
         }
     }
 
-    // As an authenticated user of the system, I need to be able to see my Account Balance.
     private void viewCurrentBalance() {
-        // TODO print current balance
+        // print current balance
         System.out.println("Your current balance: $" + accountService.getBalance(currentUser));
     }
 
-
-    /*
-    As an authenticated user of the system, I need to be able to send a transfer of a specific amount of TE Bucks to a registered user.
-    [COMPLETE] I should be able to choose from a list of users to send TE Bucks to.
-    [COMPLETE] I must not be allowed to send money to myself.
-    [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
-    [COMPLETE] The receiver's account balance is increased by the amount of the transfer.
-    [COMPLETE]  The sender's account balance is decreased by the amount of the transfer.
-    [COMPLETE] I can't send more TE Bucks than I have in my account.
-    [COMPLETE] I can't send a zero or negative amount.
-    [COMPLETE] A Sending Transfer has an initial status of Approved.
-    */
     private void sendBucks() {
         //TODO print user list
         System.out.println(StringUtils.center("", 50, "-"));
@@ -162,7 +150,6 @@ public class App {
         }
     }
 
-    //TODO Validate User ID
     private boolean isValidUserId(long userId, User[] users) {
         boolean isValidId = false;
         if(userId != 0) {
@@ -184,7 +171,6 @@ public class App {
         return false;
     }
 
-    //TODO make transfer
     private Transfer makeTransfer(int userAccountChoice, String transferType, String statusDescription, BigDecimal amount) {
         Transfer transfer = new Transfer();
         int transferTypeId = transferTypeService.getTransferTypeByDescription(currentUser, transferType).getTransferTypeId();
@@ -197,7 +183,8 @@ public class App {
             accountToId = accountService.getAccountByUserId(currentUser, userAccountChoice).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
             transactionStatus = "Transaction complete!";
-        } else { //Request
+        } else {
+            // Request
             accountToId = accountService.getAccountByUserId(currentUser, Math.toIntExact(currentUser.getUser().getId())).getAccountId();
             accountFromId = accountService.getAccountByUserId(currentUser, userAccountChoice).getAccountId();
             transactionStatus = "Request complete!";
@@ -217,11 +204,8 @@ public class App {
         return transfer;
     }
 
-
-
-    //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void viewTransferHistory() {
-        // TODO print transfer history
+        // print transfer history
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println("|" + StringUtils.center("", 48, " ") + "|");
         System.out.println("|" + StringUtils.center("Transfer History", 48, " ") + "|");
@@ -229,7 +213,6 @@ public class App {
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println("| [TransferID]      [From/To]           [Amount] |");
         System.out.println(StringUtils.center("", 50, "-"));
-        //System.out.println();
         Transfer[] transfers = transferService.viewTransferHistory(currentUser);
         int accFromUserId = 0;
         int accToUserId = 0;
@@ -256,10 +239,6 @@ public class App {
         }
     }
 
-
-
-
-    //TODO Validate Transfer ID
     private Transfer validateTransferId(long transferId, Transfer[] transfers, AuthenticatedUser authenticatedUser) {
         Transfer transferOption = null;
         boolean validTransferId = false;
@@ -290,34 +269,17 @@ public class App {
         int accountTo = transfer.getAccountTo();
         int transferTypeId = transfer.getTransferTypeId();
         int transferStatusId = transfer.getTransferStatusId();
-
         int fromUserId = accountService.getAccountByAccountId(authenticatedUser, accountFrom).getUserId();
         String fromUserName = userService.getUserByUserId(authenticatedUser, fromUserId).getUsername();
         int toUserId = accountService.getAccountByAccountId(authenticatedUser, accountTo).getUserId();
         String toUserName = userService.getUserByUserId(authenticatedUser, toUserId).getUsername();
         String transferType = transferTypeService.getTransferTypeById(authenticatedUser, transferTypeId).getTransferTypeDescription();
         String transferStatus = transferStatusService.getTransferStatusById(authenticatedUser, transferStatusId).getTransferStatusDesc();
-
         consoleService.printTransferDetails(transferId, fromUserName, toUserName, transferType, transferStatus, money);
-
     }
 
-
-
-
-
-    /*
-    As an authenticated user of the system, I need to be able to request a transfer of a specific amount of TE Bucks from another registered user.
-    [COMPLETE] I should be able to choose from a list of users to request TE Bucks from.
-    [COMPLETE] I must not be allowed to request money from myself.
-    I can't request a zero or negative amount.
-    [COMPLETE] A transfer includes the User IDs of the from and to users and the amount of TE Bucks.
-    A Request Transfer has an initial status of Pending.
-    No account balance changes until the request is approved.
-    The transfer request should appear in both users' list of transfers (use case #5).
-    */
     private void requestBucks() {
-        // TODO print user list
+        // print user list
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println("|" + StringUtils.center("", 48, " ") + "|");
         System.out.println("|" + StringUtils.center("User List", 48, " ") + "|");
@@ -343,11 +305,8 @@ public class App {
         }
     }
 
-
-
-
     private void viewPendingRequests() {
-        // TODO print pending transfer
+        // print pending transfer
         System.out.println(StringUtils.center("", 50, "-"));
         System.out.println("|" + StringUtils.center("", 48, " ") + "|");
         System.out.println("|" + StringUtils.center("Pending Requests", 48, " ") + "|");
@@ -362,7 +321,7 @@ public class App {
             }
             System.out.println(StringUtils.center("", 50, "-"));
             System.out.println();
-            //TODO approve or reject
+            // approve or reject
             int transferOption = consoleService.promptForInt("Please enter transfer ID to approve/reject (0 to cancel) : ");
             Transfer transfer = validateTransferId(transferOption, transfers, currentUser);
             if(transfer != null) {
@@ -373,9 +332,6 @@ public class App {
             System.out.println("No pending transfer to show.");
         }
     }
-
-
-
 
     //As an authenticated user of the system, I need to be able to see transfers I have sent or received.
     private void printTransfers(AuthenticatedUser authenticatedUser, Transfer transfer) {
@@ -396,7 +352,6 @@ public class App {
         }
         consoleService.printTransfers(transfer.getTransferId(), transferFromOrTo, transfer.getAmount());
     }
-
 
     /*
     As an authenticated user of the system, I need to be able to either approve or reject a Request Transfer.
@@ -436,4 +391,3 @@ public class App {
         }
     }
 }
-

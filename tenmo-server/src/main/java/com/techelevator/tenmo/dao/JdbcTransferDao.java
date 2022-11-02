@@ -1,20 +1,25 @@
 package com.techelevator.tenmo.dao;
 
+
 import com.techelevator.tenmo.model.Transfer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.stereotype.Component;
 
 import javax.sql.DataSource;
+
 import java.math.BigDecimal;
+
 import java.util.ArrayList;
 import java.util.List;
+
+
 @Component
 public class JdbcTransferDao implements TransferDao {
     @Autowired
     private JdbcTemplate jdbcTemplate;
-
     public JdbcTransferDao(DataSource dataSource){this.jdbcTemplate = new JdbcTemplate(dataSource);}
 
     @Override
@@ -46,11 +51,9 @@ public class JdbcTransferDao implements TransferDao {
                      "FROM transfer WHERE transfer_id = ?";
         SqlRowSet result = jdbcTemplate.queryForRowSet(sql, transferId);
         Transfer transfer = null;
-
         if(result.next()){
             transfer = mapResultToTransfer(result);
         }
-
         return transfer;
     }
 
@@ -59,14 +62,12 @@ public class JdbcTransferDao implements TransferDao {
         String sql = "SELECT transfer_id, transfer_type_id, transfer_status_id, " +
                      "account_from, account_to, amount " +
                      "FROM transfer";
-
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql);
         List<Transfer> transfers = new ArrayList<>();
 
         while(results.next()){
             transfers.add(mapResultToTransfer(results));
         }
-
         return transfers;
     }
 
@@ -81,7 +82,6 @@ public class JdbcTransferDao implements TransferDao {
                 "AND t.transfer_status_id = 1";
         SqlRowSet results = jdbcTemplate.queryForRowSet(sql, userId, userId);
         List<Transfer> transfers = new ArrayList<>();
-
         while(results.next()) {
             transfers.add(mapResultToTransfer(results));
         }
@@ -93,7 +93,6 @@ public class JdbcTransferDao implements TransferDao {
         String sql = "UPDATE transfer " +
                      "SET transfer_status_id = ? " +
                      "WHERE transfer_id = ?";
-
         jdbcTemplate.update(sql, transfer.getTransferStatusId(), transfer.getTransferId());
         return false;
     }

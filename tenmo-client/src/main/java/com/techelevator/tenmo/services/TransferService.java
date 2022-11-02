@@ -1,8 +1,10 @@
 package com.techelevator.tenmo.services;
 
+
 import com.techelevator.tenmo.model.AuthenticatedUser;
 import com.techelevator.tenmo.model.Transfer;
 import com.techelevator.util.BasicLogger;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,22 +15,18 @@ import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 
-public class TransferService {
 
+public class TransferService {
     private final String baseUrl;
     private RestTemplate restTemplate = new RestTemplate();
-
-
 
     public TransferService(String baseUrl) {
         this.baseUrl = baseUrl + "transfer/";
     }
 
-
     public Transfer[] viewTransferHistory(AuthenticatedUser authenticatedUser) {
         HttpEntity entity = makeEntity(authenticatedUser);
         Transfer[] transfer= new Transfer[0];
-
         try {
             transfer = restTemplate.exchange(baseUrl,
                                              HttpMethod.GET,
@@ -41,8 +39,6 @@ public class TransferService {
         }
         return transfer;
     }
-
-
 
     public void makeTransfer(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity = transferEntity(authenticatedUser, transfer);
@@ -60,13 +56,9 @@ public class TransferService {
         }
     }
 
-
-
-
     public Transfer[] getTransfersByUserId(AuthenticatedUser authenticatedUser, int userId) {
         Transfer[] transfers = null;
         HttpEntity entity = makeEntity(authenticatedUser);
-
         try {
             transfers = restTemplate.exchange(baseUrl + "users/" +
                                               userId,
@@ -82,13 +74,9 @@ public class TransferService {
         return transfers;
     }
 
-
-
-
     public Transfer getTransferByTransferId(AuthenticatedUser authenticatedUser, int transferId) {
         Transfer transfer = null;
         HttpEntity entity = makeEntity(authenticatedUser);
-
         try {
             transfer = restTemplate.exchange(baseUrl + transferId,
                                              HttpMethod.GET,
@@ -103,13 +91,9 @@ public class TransferService {
         return transfer;
     }
 
-
-
-
     public Transfer[] getAllTransfers(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = new Transfer[0];
         HttpEntity entity = makeEntity(authenticatedUser);
-
         try {
             transfers = restTemplate.exchange(baseUrl,
                                               HttpMethod.GET,
@@ -124,12 +108,9 @@ public class TransferService {
         return transfers;
     }
 
-
-
     public Transfer[] getPendingTransfersByUserId(AuthenticatedUser authenticatedUser) {
         Transfer[] transfers = null;
         HttpEntity entity = makeEntity(authenticatedUser);
-
         try {
             transfers = restTemplate.exchange(baseUrl + "users/" +
                                               authenticatedUser.getUser().getId() + "/pending",
@@ -144,11 +125,8 @@ public class TransferService {
         return transfers;
     }
 
-
-
     public void updateTransferStatus(AuthenticatedUser authenticatedUser, Transfer transfer) {
         HttpEntity entity =  transferEntity(authenticatedUser, transfer);
-
         try {
             restTemplate.exchange(baseUrl + "transfers/" + transfer.getTransferId(),
                                   HttpMethod.PUT,
@@ -161,8 +139,6 @@ public class TransferService {
             BasicLogger.log(e.getMessage());
         }
     }
-
-
 
     private HttpEntity makeEntity(AuthenticatedUser authenticatedUser) {
         HttpHeaders headers = new HttpHeaders();
